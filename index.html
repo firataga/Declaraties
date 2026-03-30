@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Declaratie Duygu Yildirim</title>
+    <style>
+        :root { 
+            --primary: #1a73e8; 
+            --secondary: #34a853; 
+            --pdf-color: #e03131;
+            --bg: #f8f9fa; 
+            --text: #202124; 
+            --danger: #d93025; 
+        }
+        
+        html { -webkit-text-size-adjust: 100%; }
+
+        body { 
+            font-family: -apple-system, system-ui, sans-serif; 
+            background-color: var(--bg); 
+            margin: 0; 
+            padding: 20px 10px; 
+            color: var(--text); 
+        }
+
+        .container { max-width: 100%; width: 950px; margin: auto; }
+        h1 { text-align: center; color: var(--primary); font-size: 24px; margin-bottom: 20px; }
+        
+        .card { 
+            background: white; padding: 20px; border-radius: 14px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 20px; 
+        }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; align-items: end; }
+        .full-width { grid-column: span 2; }
+        label { margin-bottom: 5px; font-weight: 600; font-size: 13px; color: #5f6368; }
+        
+        input { 
+            width: 100%; height: 48px; padding: 0 12px; 
+            border: 1px solid #dadce0; border-radius: 10px; 
+            box-sizing: border-box; font-size: 16px; outline: none; 
+            background-color: #fff; -webkit-appearance: none;
+        }
+
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; grid-column: span 2; }
+        button { height: 50px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; color: white; font-size: 14px; }
+        .btn-save { background: var(--secondary); }
+        .btn-export { background: var(--primary); }
+        .btn-pdf { background: var(--pdf-color); }
+
+        .week-card { background: white; border-radius: 14px; margin-bottom: 20px; overflow: hidden; border: 1px solid #e0e0e0; }
+        .week-header { background: #f8f9fa; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; border-bottom: 1px solid #eee; }
+        
+        .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; } 
+        
+        th, td { padding: 10px 8px; text-align: left; font-size: 13px; border-bottom: 1px solid #f1f1f1; overflow: hidden; text-overflow: ellipsis; }
+        
+        th:nth-child(1), td:nth-child(1) { width: 45px; } 
+        th:nth-child(2), td:nth-child(2) { width: auto; min-width: 100px; } 
+        th:nth-child(3), td:nth-child(3) { width: 40px; text-align: center; } 
+        th:nth-child(4), td:nth-child(4) { width: 40px; text-align: center; } 
+        th:nth-child(5), td:nth-child(5) { width: 70px; } 
+        th:nth-child(6), td:nth-child(6) { width: 70px; } 
+        th:nth-child(7), td:nth-child(7) { width: 70px; font-weight: bold; } 
+        th:last-child, td:last-child { width: 40px; text-align: center; } 
+
+        .summary-card { background: #e8f0fe; padding: 20px; border-radius: 14px; border: 1px solid #d2e3fc; }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 16px; }
+        .total-highlight { border-top: 2px solid #acc8f8; padding-top: 10px; color: var(--primary); font-size: 22px; font-weight: 800; }
+
+        .btn-delete { background: #feeef3; color: var(--danger); border: none; border-radius: 6px; padding: 8px; cursor: pointer; }
+        .btn-clear-all { background: none; color: var(--danger); border: 1px solid var(--danger); margin: 30px auto; display: block; padding: 10px 20px; border-radius: 10px; cursor: pointer; }
+
+        @media print {
+            @page { size: A4 portrait; margin: 10mm; }
+            body { background: white; padding: 0; }
+            .card, .btn-group, .btn-delete, .btn-clear-all, th:last-child, td:last-child { display: none !important; }
+            .container { width: 100%; max-width: 100%; }
+            th, td { font-size: 11px; padding: 6px 4px; } 
+            .week-header { font-size: 14px; padding: 10px; }
+            .week-card { border: 1px solid #ccc; margin-bottom: 15px; page-break-inside: avoid; }
+        }
+
+        @media (max-width: 600px) {
+            .grid { grid-template-columns: 1fr; }
+            .btn-group { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📄 Declaratie Duygu Yildirim</h1>
+
+    <div class="card">
+        <div class="grid">
+            <div class="form-group full-width">
+                <label>Cliëntnaam</label>
+                <input type="text" id="client" placeholder="Naam">
+            </div>
+            <div class="form-group full-width">
+                <label>Adres</label>
+                <input type="text" id="adres" placeholder="Straat + Plaats">
+            </div>
+            <div class="form-group">
+                <label>Datum</label>
+                <input type="date" id="datum">
+            </div>
+            <div class="form-group">
+                <label>Uren</label>
+                <input type="number" id="uren" placeholder="0" step="0.5">
+            </div>
+            <div class="form-group">
+                <label>KM (retour)</label>
+                <input type="number" id="km" placeholder="0">
+            </div>
+            <div class="form-group">
+                <label>Onkosten (€)</label>
+                <input type="number" id="onkosten" placeholder="0.00" step="0.01">
+            </div>
+            <div class="btn-group">
+                <button class="btn-save" onclick="opslaan()">Opslaan</button>
+                <button class="btn-export" onclick="exporteer()">Excel</button>
+                <button class="btn-pdf" onclick="exporteerPDF()">PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="overzicht"></div>
+
+    <div class="summary-card">
+        <div class="summary-row"><span>Totaal uren:</span> <span id="totaalUren">0</span></div>
+        <div class="summary-row"><span>Reiskosten:</span> <span id="totaalKMKosten">€ 0,00</span></div>
+        <div class="summary-row"><span>Onkosten:</span> <span id="totaalOnkosten">€ 0,00</span></div>
+        <div class="summary-row total-highlight"><span>Totaal:</span> <span id="eindtotaal">€ 0,00</span></div>
+    </div>
+
+    <button class="btn-clear-all" onclick="wisAlles()">⚠️ Volledige lijst wissen</button>
+</div>
+
+<script>
+    document.getElementById('datum').valueAsDate = new Date();
+    window.onload = laden;
+
+    function getWeek(d) {
+        d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+        d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+        return Math.ceil((((d - new Date(Date.UTC(d.getUTCFullYear(), 0, 1))) / 86400000) + 1) / 7);
+    }
+
+    function opslaan() {
+        const client = document.getElementById('client').value;
+        const adres = document.getElementById('adres').value;
+        const datum = document.getElementById('datum').value;
+        const uren = parseFloat(document.getElementById('uren').value) || 0;
+        const km = parseFloat(document.getElementById('km').value) || 0;
+        const onkosten = parseFloat(document.getElementById('onkosten').value) || 0;
+
+        if(!client || !datum) return alert("Vul naam en datum in");
+
+        let kmBedrag = (km > 22) ? (22 * 0.21) + ((km - 22) * 0.26) : (km * 0.21);
+
+        const item = { id: Date.now(), client, adres, datum, uren, km, kmBedrag, onkosten, week: getWeek(new Date(datum)), jaar: new Date(datum).getFullYear() };
+        let data = JSON.parse(localStorage.getItem('werkData')) || [];
+        data.push(item);
+        localStorage.setItem('werkData', JSON.stringify(data));
+        
+        document.getElementById('uren').value = '';
+        document.getElementById('km').value = '';
+        document.getElementById('onkosten').value = '';
+        laden();
+    }
+
+    function verwijderRegel(id) {
+        if(confirm("Verwijderen?")) {
+            let data = JSON.parse(localStorage.getItem('werkData')) || [];
+            localStorage.setItem('werkData', JSON.stringify(data.filter(i => i.id !== id)));
+            laden();
+        }
+    }
+
+    function laden() {
+        const div = document.getElementById('overzicht');
+        let data = JSON.parse(localStorage.getItem('werkData')) || [];
+        div.innerHTML = '';
+        let uTotaal = 0, kmKTotaal = 0, onkTotaal = 0;
+        data.sort((a,b) => new Date(b.datum) - new Date(a.datum));
+
+        const groepen = {};
+        data.forEach(r => {
+            const label = `Week ${r.week} - ${r.jaar}`;
+            if(!groepen[label]) groepen[label] = { items: [], subtotaal: 0 };
+            groepen[label].items.push(r);
+            groepen[label].subtotaal += (r.kmBedrag + r.onkosten);
+            uTotaal += r.uren; kmKTotaal += r.kmBedrag; onkTotaal += r.onkosten;
+        });
+
+        for (const [titel, info] of Object.entries(groepen)) {
+            let html = `<div class="week-card"><div class="week-header"><span>${titel}</span><span>€ ${info.subtotaal.toFixed(2).replace('.',',')}</span></div><div class="table-wrapper"><table><thead><tr><th>Datum</th><th>Details</th><th>U</th><th>KM</th><th>Vrg.</th><th>Onk.</th><th>Sub.</th><th></th></tr></thead><tbody>`;
+            info.items.forEach(r => {
+                html += `<tr><td>${r.datum.split('-').reverse().slice(0,2).join('-')}</td><td><strong>${r.client}</strong><br><small>${r.adres || ''}</small></td><td style="text-align:center">${r.uren}</td><td style="text-align:center">${r.km}</td><td>€${r.kmBedrag.toFixed(2).replace('.',',')}</td><td>€${r.onkosten.toFixed(2).replace('.',',')}</td><td>€${(r.kmBedrag + r.onkosten).toFixed(2).replace('.',',')}</td><td><button class="btn-delete" onclick="verwijderRegel(${r.id})">🗑️</button></td></tr>`;
+            });
+            div.innerHTML += html + `</tbody></table></div></div>`;
+        }
+
+        document.getElementById('totaalUren').innerText = uTotaal;
+        document.getElementById('totaalKMKosten').innerText = `€ ${kmKTotaal.toFixed(2).replace('.',',')}`;
+        document.getElementById('totaalOnkosten').innerText = `€ ${onkTotaal.toFixed(2).replace('.',',')}`;
+        document.getElementById('eindtotaal').innerText = `€ ${(kmKTotaal + onkTotaal).toFixed(2).replace('.',',')}`;
+    }
+
+    function exporteer() {
+        let data = JSON.parse(localStorage.getItem('werkData')) || [];
+        let csv = "sep=;\nDatum;Client;Adres;Uren;KM;KM-Bedrag;Onkosten;Totaal\n";
+        data.forEach(r => { csv += `${r.datum};${r.client};${r.adres};${r.uren};${r.km};${r.kmBedrag.toFixed(2).replace('.',',')};${r.onkosten.toFixed(2).replace('.',',')};${(r.kmBedrag + r.onkosten).toFixed(2).replace('.',',')}\n`; });
+        const blob = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "Declaratie_Duygu_Yildirim.csv";
+        link.click();
+    }
+
+    function exporteerPDF() { window.print(); }
+
+    function wisAlles() {
+        if(confirm("Weet je het zeker? Alles wordt gewist!")) { 
+            localStorage.removeItem('werkData'); 
+            laden(); 
+        }
+    }
+</script>
+</body>
+</html>
