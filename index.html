@@ -6,87 +6,143 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Declaratie Duygu Yildirim</title>
     <style>
-        :root { 
-            --primary: #1a73e8; 
-            --secondary: #34a853; 
+        :root {
+            --primary: #1a73e8;
+            --primary-licht: #e8f0fe;
+            --secondary: #34a853;
             --pdf-color: #e03131;
-            --bg: #f8f9fa; 
-            --text: #202124; 
-            --danger: #d93025; 
+            --bg: #f4f6f9;
+            --kaart: #ffffff;
+            --text: #202124;
+            --zacht: #5f6368;
+            --lijn: #e3e6ea;
+            --danger: #d93025;
         }
-        
+
         html { -webkit-text-size-adjust: 100%; }
+        * { box-sizing: border-box; }
 
-        body { 
-            font-family: -apple-system, system-ui, sans-serif; 
-            background-color: var(--bg); 
-            margin: 0; 
-            padding: 20px 10px; 
-            color: var(--text); 
+        body {
+            font-family: -apple-system, system-ui, "Segoe UI", sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 20px 12px 40px;
+            color: var(--text);
         }
 
-        .container { max-width: 100%; width: 950px; margin: auto; }
-        h1 { text-align: center; color: var(--primary); font-size: 24px; margin-bottom: 20px; }
-        
-        .card { 
-            background: white; padding: 20px; border-radius: 14px; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 20px; 
-        }
+        .container { width: 100%; max-width: 950px; margin: auto; }
+        h1 { text-align: center; color: var(--primary); font-size: 23px; margin: 4px 0 20px; }
 
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; align-items: end; }
+        .card {
+            background: var(--kaart); padding: 18px; border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06); margin-bottom: 18px;
+        }
+        .card.bewerken { outline: 2px solid #f9ab00; }
+        .bewerk-melding { display: none; background: #fef7e0; color: #8a5a00; font-size: 13px; font-weight: 600; padding: 8px 12px; border-radius: 8px; margin-bottom: 12px; }
+        .card.bewerken .bewerk-melding { display: block; }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
         .full-width { grid-column: span 2; }
-        label { margin-bottom: 5px; font-weight: 600; font-size: 13px; color: #5f6368; }
-        
-        input { 
-            width: 100%; height: 48px; padding: 0 12px; 
-            border: 1px solid #dadce0; border-radius: 10px; 
-            box-sizing: border-box; font-size: 16px; outline: none; 
-            background-color: #fff; -webkit-appearance: none;
-        }
+        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 13px; color: var(--zacht); }
 
-        .btn-group { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; grid-column: span 2; }
-        button { height: 50px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; color: white; font-size: 14px; }
+        input, select {
+            width: 100%; height: 48px; padding: 0 12px;
+            border: 1px solid #dadce0; border-radius: 10px;
+            font-size: 16px; outline: none; font-family: inherit;
+            background-color: #fff; color: var(--text); -webkit-appearance: none; appearance: none;
+        }
+        input:focus, select:focus { border-color: var(--primary); }
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235f6368' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px;
+        }
+        .hint { font-size: 12px; color: var(--zacht); margin-top: 4px; }
+
+        button { height: 50px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; color: white; font-size: 14px; font-family: inherit; }
+        .btn-rij { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 16px; }
+        .card.bewerken .btn-rij { grid-template-columns: 2fr 1fr; }
         .btn-save { background: var(--secondary); }
+        .btn-annuleer { background: #eceff1; color: var(--text); display: none; }
+        .card.bewerken .btn-annuleer { display: block; }
         .btn-export { background: var(--primary); }
         .btn-pdf { background: var(--pdf-color); }
+        .btn-licht { background: var(--primary-licht); color: var(--primary); }
 
-        .week-card { background: white; border-radius: 14px; margin-bottom: 20px; overflow: hidden; border: 1px solid #e0e0e0; }
-        .week-header { background: #f8f9fa; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; border-bottom: 1px solid #eee; }
-        
-        .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        table { width: 100%; border-collapse: collapse; table-layout: fixed; } 
-        
-        th, td { padding: 10px 8px; text-align: left; font-size: 13px; border-bottom: 1px solid #f1f1f1; overflow: hidden; text-overflow: ellipsis; }
-        
-        th:nth-child(1), td:nth-child(1) { width: 45px; } 
-        th:nth-child(2), td:nth-child(2) { width: auto; min-width: 100px; } 
-        th:nth-child(3), td:nth-child(3) { width: 40px; text-align: center; } 
-        th:nth-child(4), td:nth-child(4) { width: 40px; text-align: center; } 
-        th:nth-child(5), td:nth-child(5) { width: 70px; } 
-        th:nth-child(6), td:nth-child(6) { width: 70px; } 
-        th:nth-child(7), td:nth-child(7) { width: 70px; font-weight: bold; } 
-        th:last-child, td:last-child { width: 40px; text-align: center; } 
+        .werkbalk { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; align-items: end; }
 
-        .summary-card { background: #e8f0fe; padding: 20px; border-radius: 14px; border: 1px solid #d2e3fc; }
+        .week-card { background: var(--kaart); border-radius: 14px; margin-bottom: 16px; overflow: hidden; border: 1px solid var(--lijn); }
+        .week-header { background: #f8f9fa; padding: 13px 15px; font-weight: bold; display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px solid #eee; }
+        .week-header .week-totaal { color: var(--primary); white-space: nowrap; }
+        .week-header small { color: var(--zacht); font-weight: 600; margin-right: 8px; }
+
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        th, td { padding: 10px 8px; text-align: left; font-size: 13px; border-bottom: 1px solid #f1f1f1; overflow: hidden; text-overflow: ellipsis; vertical-align: top; }
+        th { color: var(--zacht); font-size: 12px; }
+        .k-datum { width: 92px; }
+        .k-num { width: 54px; text-align: center; }
+        .k-geld { width: 82px; text-align: right; }
+        .k-acties { width: 84px; text-align: right; white-space: nowrap; }
+        td.k-geld:last-of-type { font-weight: bold; }
+        .vet { font-weight: bold; }
+
+        .btn-icoon { height: 34px; width: 34px; padding: 0; border-radius: 8px; font-size: 15px; }
+        .btn-bewerk { background: #f1f3f4; color: var(--text); }
+        .btn-delete { background: #feeef3; color: var(--danger); }
+
+        /* Mobiele kaartjes */
+        .regels-mobiel { display: none; }
+        .regel { padding: 12px 15px; border-bottom: 1px solid #f1f1f1; }
+        .regel:last-child { border-bottom: none; }
+        .regel-top { display: flex; justify-content: space-between; gap: 10px; }
+        .regel-naam { font-weight: 700; font-size: 15px; }
+        .regel-sub { color: var(--zacht); font-size: 13px; margin-top: 2px; }
+        .regel-bedrag { font-weight: 800; font-size: 15px; white-space: nowrap; }
+        .regel-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+        .chip { background: #f1f3f4; border-radius: 20px; padding: 4px 10px; font-size: 12px; color: #3c4043; }
+        .regel-acties { display: flex; gap: 8px; margin-top: 10px; }
+        .regel-acties button { height: 36px; font-size: 13px; padding: 0 14px; }
+
+        .leeg { text-align: center; color: var(--zacht); padding: 30px 10px; }
+
+        .summary-card { background: var(--primary-licht); padding: 18px 20px; border-radius: 14px; border: 1px solid #d2e3fc; }
         .summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 16px; }
-        .total-highlight { border-top: 2px solid #acc8f8; padding-top: 10px; color: var(--primary); font-size: 22px; font-weight: 800; }
+        .total-highlight { border-top: 2px solid #acc8f8; padding-top: 10px; margin-top: 4px; margin-bottom: 0; color: var(--primary); font-size: 22px; font-weight: 800; }
 
-        .btn-delete { background: #feeef3; color: var(--danger); border: none; border-radius: 6px; padding: 8px; cursor: pointer; }
-        .btn-clear-all { background: none; color: var(--danger); border: 1px solid var(--danger); margin: 30px auto; display: block; padding: 10px 20px; border-radius: 10px; cursor: pointer; }
+        .beheer { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 24px; }
+        .beheer h2 { grid-column: span 2; font-size: 14px; color: var(--zacht); margin: 0; }
+        .btn-clear-all { background: none; color: var(--danger); border: 1px solid var(--danger); margin: 24px auto 0; display: block; padding: 0 20px; height: 44px; border-radius: 10px; cursor: pointer; }
 
-        @media print {
-            @page { size: A4 portrait; margin: 10mm; }
-            body { background: white; padding: 0; }
-            .card, .btn-group, .btn-delete, .btn-clear-all, th:last-child, td:last-child { display: none !important; }
-            .container { width: 100%; max-width: 100%; }
-            th, td { font-size: 11px; padding: 6px 4px; } 
-            .week-header { font-size: 14px; padding: 10px; }
-            .week-card { border: 1px solid #ccc; margin-bottom: 15px; page-break-inside: avoid; }
+        .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); background: #202124; color: #fff; padding: 12px 18px; border-radius: 10px; font-size: 14px; opacity: 0; pointer-events: none; transition: all .25s; z-index: 10; max-width: 90%; }
+        .toast.zichtbaar { opacity: 1; transform: translate(-50%, 0); }
+
+        .print-kop, .print-voet { display: none; }
+
+        @media (max-width: 640px) {
+            .grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+            .werkbalk { grid-template-columns: 1fr 1fr; }
+            .werkbalk .periode-veld { grid-column: span 2; }
+            .tabel-weergave { display: none; }
+            .regels-mobiel { display: block; }
+            .week-header { font-size: 14px; }
         }
 
-        @media (max-width: 600px) {
-            .grid { grid-template-columns: 1fr; }
-            .btn-group { grid-template-columns: 1fr; }
+        @media print {
+            @page { size: A4 portrait; margin: 12mm; }
+            body { background: white; padding: 0; }
+            h1, .card, .beheer, .btn-clear-all, .k-acties, .toast { display: none !important; }
+            .container { max-width: 100%; }
+            .tabel-weergave { display: block !important; }
+            .regels-mobiel { display: none !important; }
+            .print-kop { display: block; margin-bottom: 14px; border-bottom: 2px solid #202124; padding-bottom: 10px; }
+            .print-kop h2 { margin: 0 0 6px; font-size: 20px; }
+            .print-kop div { font-size: 12px; line-height: 1.6; }
+            th, td { font-size: 11px; padding: 6px 4px; }
+            .week-header { font-size: 13px; padding: 8px 10px; }
+            .week-card { border: 1px solid #ccc; margin-bottom: 12px; page-break-inside: avoid; border-radius: 6px; }
+            .summary-card { background: white; border: 1px solid #ccc; page-break-inside: avoid; }
+            .print-voet { display: block; margin-top: 40px; font-size: 12px; }
+            .print-voet .lijn { display: inline-block; width: 220px; border-bottom: 1px solid #000; margin-left: 8px; }
         }
     </style>
 </head>
@@ -95,140 +151,404 @@
 <div class="container">
     <h1>📄 Declaratie Duygu Yildirim</h1>
 
-    <div class="card">
+    <!-- Invoer -->
+    <div class="card" id="invoerKaart">
+        <div class="bewerk-melding">✏️ Je bewerkt een bestaande registratie</div>
         <div class="grid">
-            <div class="form-group full-width">
-                <label>Cliëntnaam</label>
-                <input type="text" id="client" placeholder="Naam">
+            <div class="full-width">
+                <label for="client">Cliëntnaam</label>
+                <input type="text" id="client" placeholder="Naam" list="clientLijst" autocomplete="off">
+                <datalist id="clientLijst"></datalist>
+                <div class="hint">Bekende cliënt? Adres en km worden automatisch ingevuld.</div>
             </div>
-            <div class="form-group full-width">
-                <label>Adres</label>
+            <div class="full-width">
+                <label for="adres">Adres</label>
                 <input type="text" id="adres" placeholder="Straat + Plaats">
             </div>
-            <div class="form-group">
-                <label>Datum</label>
+            <div>
+                <label for="datum">Datum</label>
                 <input type="date" id="datum">
             </div>
-            <div class="form-group">
-                <label>Uren</label>
-                <input type="number" id="uren" placeholder="0" step="0.5">
+            <div>
+                <label for="uren">Uren</label>
+                <input type="number" id="uren" placeholder="0" step="0.25" min="0" inputmode="decimal">
             </div>
-            <div class="form-group">
-                <label>KM (retour)</label>
-                <input type="number" id="km" placeholder="0">
+            <div>
+                <label for="km">KM (retour)</label>
+                <input type="number" id="km" placeholder="0" min="0" inputmode="decimal">
             </div>
-            <div class="form-group">
-                <label>Onkosten (€)</label>
-                <input type="number" id="onkosten" placeholder="0.00" step="0.01">
-            </div>
-            <div class="btn-group">
-                <button class="btn-save" onclick="opslaan()">Opslaan</button>
-                <button class="btn-export" onclick="exporteer()">Excel</button>
-                <button class="btn-pdf" onclick="exporteerPDF()">PDF</button>
+            <div>
+                <label for="onkosten">Onkosten (€)</label>
+                <input type="number" id="onkosten" placeholder="0.00" step="0.01" min="0" inputmode="decimal">
             </div>
         </div>
+        <div class="btn-rij">
+            <button class="btn-save" id="btnOpslaan" onclick="opslaan()">Opslaan</button>
+            <button class="btn-annuleer" onclick="annuleerBewerken()">Annuleren</button>
+        </div>
+    </div>
+
+    <!-- Periode + export -->
+    <div class="card">
+        <div class="werkbalk">
+            <div class="periode-veld">
+                <label for="periode">Periode</label>
+                <select id="periode" onchange="laden()"></select>
+            </div>
+            <button class="btn-export" onclick="exporteer()">Excel</button>
+            <button class="btn-pdf" onclick="exporteerPDF()">PDF</button>
+        </div>
+    </div>
+
+    <!-- Alleen zichtbaar in de PDF -->
+    <div class="print-kop">
+        <h2>Declaratie Duygu Yildirim</h2>
+        <div id="printDetails"></div>
     </div>
 
     <div id="overzicht"></div>
 
     <div class="summary-card">
+        <div class="summary-row"><span>Registraties:</span> <span id="aantal">0</span></div>
         <div class="summary-row"><span>Totaal uren:</span> <span id="totaalUren">0</span></div>
+        <div class="summary-row"><span>Totaal km:</span> <span id="totaalKm">0</span></div>
         <div class="summary-row"><span>Reiskosten:</span> <span id="totaalKMKosten">€ 0,00</span></div>
         <div class="summary-row"><span>Onkosten:</span> <span id="totaalOnkosten">€ 0,00</span></div>
         <div class="summary-row total-highlight"><span>Totaal:</span> <span id="eindtotaal">€ 0,00</span></div>
     </div>
 
+    <div class="print-voet">Handtekening: <span class="lijn"></span></div>
+
+    <!-- Back-up -->
+    <div class="beheer">
+        <h2>Back-up</h2>
+        <button class="btn-licht" onclick="backupOpslaan()">💾 Back-up opslaan</button>
+        <button class="btn-licht" onclick="document.getElementById('backupBestand').click()">📂 Terugzetten</button>
+        <input type="file" id="backupBestand" accept=".json,application/json" style="display:none" onchange="backupTerugzetten(this)">
+    </div>
+
     <button class="btn-clear-all" onclick="wisAlles()">⚠️ Volledige lijst wissen</button>
 </div>
 
-<script>
-    document.getElementById('datum').valueAsDate = new Date();
-    window.onload = laden;
+<div class="toast" id="toast"></div>
 
-    function getWeek(d) {
-        d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-        d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-        return Math.ceil((((d - new Date(Date.UTC(d.getUTCFullYear(), 0, 1))) / 86400000) + 1) / 7);
+<script>
+    // Kilometervergoeding per km
+    const KM_TARIEF = 0.28;
+    const OPSLAG = 'werkData';
+    let bewerkId = null;
+
+    /* ---------- Hulpfuncties ---------- */
+    function haalData() {
+        try { return JSON.parse(localStorage.getItem(OPSLAG)) || []; } catch (e) { return []; }
+    }
+    function bewaar(d) { localStorage.setItem(OPSLAG, JSON.stringify(d)); }
+    function veld(id) { return document.getElementById(id); }
+    function getal(id) { return parseFloat(String(veld(id).value).replace(',', '.')) || 0; }
+    function euro(n) { return '€ ' + (n || 0).toFixed(2).replace('.', ','); }
+    function nl(n) { return String(Math.round((n || 0) * 100) / 100).replace('.', ','); }
+    function esc(s) {
+        return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+    function pad(n) { return String(n).padStart(2, '0'); }
+    function vandaag() { const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; }
+    function parseDatum(s) { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); }
+    function datumKort(s) { const [y, m, d] = s.split('-'); return `${d}-${m}-${y}`; }
+    function datumLang(s) {
+        return parseDatum(s).toLocaleDateString('nl-NL', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+    }
+    function maandLabel(ym) {
+        const [y, m] = ym.split('-').map(Number);
+        const t = new Date(y, m - 1, 1).toLocaleDateString('nl-NL', { month: 'long', year: 'numeric' });
+        return t.charAt(0).toUpperCase() + t.slice(1);
+    }
+    function isoWeek(datum) {
+        const d = parseDatum(datum);
+        const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+        t.setUTCDate(t.getUTCDate() + 4 - (t.getUTCDay() || 7));
+        const jaar = t.getUTCFullYear();
+        const week = Math.ceil(((t - Date.UTC(jaar, 0, 1)) / 86400000 + 1) / 7);
+        return { week, jaar };
+    }
+    function toast(tekst) {
+        const t = veld('toast');
+        t.textContent = tekst;
+        t.classList.add('zichtbaar');
+        clearTimeout(t._timer);
+        t._timer = setTimeout(() => t.classList.remove('zichtbaar'), 2200);
     }
 
+    /* ---------- Invoer ---------- */
+    veld('datum').value = vandaag();
+    window.onload = laden;
+
+    // Bekende cliënt gekozen: adres en km automatisch invullen
+    veld('client').addEventListener('change', () => {
+        const naam = veld('client').value.trim().toLowerCase();
+        if (!naam) return;
+        const laatste = haalData()
+            .filter(r => r.client.trim().toLowerCase() === naam)
+            .sort((a, b) => b.datum.localeCompare(a.datum) || b.id - a.id)[0];
+        if (!laatste) return;
+        if (!veld('adres').value) veld('adres').value = laatste.adres || '';
+        if (!veld('km').value && laatste.km) veld('km').value = laatste.km;
+    });
+
     function opslaan() {
-        const client = document.getElementById('client').value;
-        const adres = document.getElementById('adres').value;
-        const datum = document.getElementById('datum').value;
-        const uren = parseFloat(document.getElementById('uren').value) || 0;
-        const km = parseFloat(document.getElementById('km').value) || 0;
-        const onkosten = parseFloat(document.getElementById('onkosten').value) || 0;
+        const client = veld('client').value.trim();
+        const adres = veld('adres').value.trim();
+        const datum = veld('datum').value;
+        const uren = getal('uren');
+        const km = getal('km');
+        const onkosten = getal('onkosten');
 
-        if(!client || !datum) return alert("Vul naam en datum in");
+        if (!client || !datum) return alert('Vul naam en datum in');
 
-        let kmBedrag = (km > 22) ? (22 * 0.21) + ((km - 22) * 0.26) : (km * 0.21);
-
-        const item = { id: Date.now(), client, adres, datum, uren, km, kmBedrag, onkosten, week: getWeek(new Date(datum)), jaar: new Date(datum).getFullYear() };
-        let data = JSON.parse(localStorage.getItem('werkData')) || [];
-        data.push(item);
-        localStorage.setItem('werkData', JSON.stringify(data));
-        
-        document.getElementById('uren').value = '';
-        document.getElementById('km').value = '';
-        document.getElementById('onkosten').value = '';
+        const data = haalData();
+        if (bewerkId !== null) {
+            const i = data.findIndex(r => r.id === bewerkId);
+            if (i > -1) {
+                const oud = data[i];
+                // Km ongewijzigd? Dan het oorspronkelijke bedrag behouden.
+                const kmBedrag = (km === oud.km) ? oud.kmBedrag : km * KM_TARIEF;
+                data[i] = { ...oud, client, adres, datum, uren, km, kmBedrag, onkosten };
+            }
+            toast('Registratie bijgewerkt');
+        } else {
+            data.push({ id: Date.now(), client, adres, datum, uren, km, kmBedrag: km * KM_TARIEF, onkosten });
+            toast('Opgeslagen');
+        }
+        bewaar(data);
+        resetFormulier();
         laden();
     }
 
+    function resetFormulier() {
+        bewerkId = null;
+        veld('invoerKaart').classList.remove('bewerken');
+        veld('btnOpslaan').textContent = 'Opslaan';
+        ['client', 'adres', 'uren', 'km', 'onkosten'].forEach(id => veld(id).value = '');
+        veld('datum').value = vandaag();
+    }
+
+    function bewerk(id) {
+        const r = haalData().find(x => x.id === id);
+        if (!r) return;
+        bewerkId = id;
+        veld('client').value = r.client;
+        veld('adres').value = r.adres || '';
+        veld('datum').value = r.datum;
+        veld('uren').value = r.uren || '';
+        veld('km').value = r.km || '';
+        veld('onkosten').value = r.onkosten || '';
+        veld('invoerKaart').classList.add('bewerken');
+        veld('btnOpslaan').textContent = 'Bijwerken';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function annuleerBewerken() { resetFormulier(); }
+
     function verwijderRegel(id) {
-        if(confirm("Verwijderen?")) {
-            let data = JSON.parse(localStorage.getItem('werkData')) || [];
-            localStorage.setItem('werkData', JSON.stringify(data.filter(i => i.id !== id)));
-            laden();
-        }
+        if (!confirm('Deze registratie verwijderen?')) return;
+        bewaar(haalData().filter(i => i.id !== id));
+        if (bewerkId === id) resetFormulier();
+        laden();
+        toast('Verwijderd');
+    }
+
+    /* ---------- Overzicht ---------- */
+    function gefilterd(alles) {
+        const p = veld('periode').value;
+        return (!p || p === 'alles') ? alles : alles.filter(r => r.datum.startsWith(p));
+    }
+
+    function vulPeriodes(alles) {
+        const sel = veld('periode');
+        const huidig = sel.value || 'alles';
+        const maanden = [...new Set(alles.map(r => r.datum.slice(0, 7)))].sort().reverse();
+        sel.innerHTML = '<option value="alles">Alle registraties</option>' +
+            maanden.map(m => `<option value="${m}">${maandLabel(m)}</option>`).join('');
+        sel.value = (huidig === 'alles' || maanden.includes(huidig)) ? huidig : 'alles';
+    }
+
+    function vulClienten(alles) {
+        const gezien = new Set();
+        const namen = [];
+        [...alles].sort((a, b) => b.datum.localeCompare(a.datum)).forEach(r => {
+            const k = r.client.trim().toLowerCase();
+            if (!gezien.has(k)) { gezien.add(k); namen.push(r.client.trim()); }
+        });
+        veld('clientLijst').innerHTML = namen.map(n => `<option value="${esc(n)}">`).join('');
     }
 
     function laden() {
-        const div = document.getElementById('overzicht');
-        let data = JSON.parse(localStorage.getItem('werkData')) || [];
-        div.innerHTML = '';
-        let uTotaal = 0, kmKTotaal = 0, onkTotaal = 0;
-        data.sort((a,b) => new Date(b.datum) - new Date(a.datum));
+        const alles = haalData();
+        vulPeriodes(alles);
+        vulClienten(alles);
 
+        const data = gefilterd(alles).sort((a, b) => b.datum.localeCompare(a.datum) || b.id - a.id);
+        const div = veld('overzicht');
+
+        let uTot = 0, kmTot = 0, kmKTot = 0, onkTot = 0;
         const groepen = {};
         data.forEach(r => {
-            const label = `Week ${r.week} - ${r.jaar}`;
-            if(!groepen[label]) groepen[label] = { items: [], subtotaal: 0 };
+            const { week, jaar } = isoWeek(r.datum);
+            const label = `Week ${week} · ${jaar}`;
+            if (!groepen[label]) groepen[label] = { items: [], uren: 0, bedrag: 0 };
             groepen[label].items.push(r);
-            groepen[label].subtotaal += (r.kmBedrag + r.onkosten);
-            uTotaal += r.uren; kmKTotaal += r.kmBedrag; onkTotaal += r.onkosten;
+            groepen[label].uren += r.uren;
+            groepen[label].bedrag += r.kmBedrag + r.onkosten;
+            uTot += r.uren; kmTot += r.km; kmKTot += r.kmBedrag; onkTot += r.onkosten;
         });
 
-        for (const [titel, info] of Object.entries(groepen)) {
-            let html = `<div class="week-card"><div class="week-header"><span>${titel}</span><span>€ ${info.subtotaal.toFixed(2).replace('.',',')}</span></div><div class="table-wrapper"><table><thead><tr><th>Datum</th><th>Details</th><th>U</th><th>KM</th><th>Vrg.</th><th>Onk.</th><th>Sub.</th><th></th></tr></thead><tbody>`;
-            info.items.forEach(r => {
-                html += `<tr><td>${r.datum.split('-').reverse().slice(0,2).join('-')}</td><td><strong>${r.client}</strong><br><small>${r.adres || ''}</small></td><td style="text-align:center">${r.uren}</td><td style="text-align:center">${r.km}</td><td>€${r.kmBedrag.toFixed(2).replace('.',',')}</td><td>€${r.onkosten.toFixed(2).replace('.',',')}</td><td>€${(r.kmBedrag + r.onkosten).toFixed(2).replace('.',',')}</td><td><button class="btn-delete" onclick="verwijderRegel(${r.id})">🗑️</button></td></tr>`;
-            });
-            div.innerHTML += html + `</tbody></table></div></div>`;
+        if (!data.length) {
+            div.innerHTML = '<div class="week-card"><div class="leeg">Nog geen registraties in deze periode.</div></div>';
+        } else {
+            let html = '';
+            for (const [titel, g] of Object.entries(groepen)) {
+                html += `<div class="week-card">
+                    <div class="week-header"><span>${titel}</span><span class="week-totaal"><small>${nl(g.uren)} u</small>${euro(g.bedrag)}</span></div>
+                    <div class="tabel-weergave"><table>
+                        <thead><tr>
+                            <th class="k-datum">Datum</th><th>Cliënt</th><th class="k-num">Uren</th><th class="k-num">KM</th>
+                            <th class="k-geld">Km-verg.</th><th class="k-geld">Onkosten</th><th class="k-geld">Totaal</th><th class="k-acties"></th>
+                        </tr></thead><tbody>`;
+                g.items.forEach(r => {
+                    html += `<tr>
+                        <td class="k-datum">${datumKort(r.datum)}</td>
+                        <td><strong>${esc(r.client)}</strong><br><small>${esc(r.adres)}</small></td>
+                        <td class="k-num">${nl(r.uren)}</td>
+                        <td class="k-num">${nl(r.km)}</td>
+                        <td class="k-geld">${euro(r.kmBedrag)}</td>
+                        <td class="k-geld">${euro(r.onkosten)}</td>
+                        <td class="k-geld vet">${euro(r.kmBedrag + r.onkosten)}</td>
+                        <td class="k-acties">
+                            <button class="btn-icoon btn-bewerk" onclick="bewerk(${r.id})" title="Bewerken">✏️</button>
+                            <button class="btn-icoon btn-delete" onclick="verwijderRegel(${r.id})" title="Verwijderen">🗑️</button>
+                        </td>
+                    </tr>`;
+                });
+                html += `</tbody></table></div><div class="regels-mobiel">`;
+                g.items.forEach(r => {
+                    html += `<div class="regel">
+                        <div class="regel-top">
+                            <div>
+                                <div class="regel-naam">${esc(r.client)}</div>
+                                <div class="regel-sub">${datumLang(r.datum)}${r.adres ? ' · ' + esc(r.adres) : ''}</div>
+                            </div>
+                            <div class="regel-bedrag">${euro(r.kmBedrag + r.onkosten)}</div>
+                        </div>
+                        <div class="regel-meta">
+                            <span class="chip">⏱ ${nl(r.uren)} u</span>
+                            <span class="chip">🚗 ${nl(r.km)} km · ${euro(r.kmBedrag)}</span>
+                            ${r.onkosten ? `<span class="chip">🧾 ${euro(r.onkosten)}</span>` : ''}
+                        </div>
+                        <div class="regel-acties">
+                            <button class="btn-bewerk" onclick="bewerk(${r.id})">✏️ Bewerken</button>
+                            <button class="btn-delete" onclick="verwijderRegel(${r.id})">🗑️ Verwijderen</button>
+                        </div>
+                    </div>`;
+                });
+                html += `</div></div>`;
+            }
+            div.innerHTML = html;
         }
 
-        document.getElementById('totaalUren').innerText = uTotaal;
-        document.getElementById('totaalKMKosten').innerText = `€ ${kmKTotaal.toFixed(2).replace('.',',')}`;
-        document.getElementById('totaalOnkosten').innerText = `€ ${onkTotaal.toFixed(2).replace('.',',')}`;
-        document.getElementById('eindtotaal').innerText = `€ ${(kmKTotaal + onkTotaal).toFixed(2).replace('.',',')}`;
+        veld('aantal').innerText = data.length;
+        veld('totaalUren').innerText = nl(uTot);
+        veld('totaalKm').innerText = nl(kmTot);
+        veld('totaalKMKosten').innerText = euro(kmKTot);
+        veld('totaalOnkosten').innerText = euro(onkTot);
+        veld('eindtotaal').innerText = euro(kmKTot + onkTot);
+
+        // Gegevens voor de PDF-kop
+        const p = veld('periode').value;
+        veld('printDetails').innerHTML =
+            `Periode: <strong>${p === 'alles' ? 'Alle registraties' : maandLabel(p)}</strong><br>` +
+            `Kilometervergoeding: € ${KM_TARIEF.toFixed(2).replace('.', ',')} per km<br>` +
+            `Opgemaakt op: ${datumKort(vandaag())}`;
+    }
+
+    /* ---------- Export ---------- */
+    function csvVeld(s) {
+        s = String(s ?? '');
+        return /[;"\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
     }
 
     function exporteer() {
-        let data = JSON.parse(localStorage.getItem('werkData')) || [];
-        let csv = "sep=;\nDatum;Client;Adres;Uren;KM;KM-Bedrag;Onkosten;Totaal\n";
-        data.forEach(r => { csv += `${r.datum};${r.client};${r.adres};${r.uren};${r.km};${r.kmBedrag.toFixed(2).replace('.',',')};${r.onkosten.toFixed(2).replace('.',',')};${(r.kmBedrag + r.onkosten).toFixed(2).replace('.',',')}\n`; });
-        const blob = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "Declaratie_Duygu_Yildirim.csv";
-        link.click();
+        const data = gefilterd(haalData()).sort((a, b) => a.datum.localeCompare(b.datum));
+        if (!data.length) return alert('Geen registraties in deze periode.');
+        let csv = 'sep=;\nDatum;Cliënt;Adres;Uren;KM;KM-bedrag;Onkosten;Totaal\n';
+        let u = 0, k = 0, kb = 0, o = 0;
+        data.forEach(r => {
+            csv += [datumKort(r.datum), csvVeld(r.client), csvVeld(r.adres), nl(r.uren), nl(r.km),
+                r.kmBedrag.toFixed(2).replace('.', ','), r.onkosten.toFixed(2).replace('.', ','),
+                (r.kmBedrag + r.onkosten).toFixed(2).replace('.', ',')].join(';') + '\n';
+            u += r.uren; k += r.km; kb += r.kmBedrag; o += r.onkosten;
+        });
+        csv += `Totaal;;;${nl(u)};${nl(k)};${kb.toFixed(2).replace('.', ',')};${o.toFixed(2).replace('.', ',')};${(kb + o).toFixed(2).replace('.', ',')}\n`;
+
+        const p = veld('periode').value;
+        const naam = `Declaratie_Duygu_Yildirim${p === 'alles' ? '' : '_' + p}.csv`;
+        download(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' }), naam);
     }
 
     function exporteerPDF() { window.print(); }
 
+    function download(blob, naam) {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = naam;
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(() => { URL.revokeObjectURL(link.href); link.remove(); }, 1000);
+    }
+
+    /* ---------- Back-up ---------- */
+    function backupOpslaan() {
+        const data = haalData();
+        if (!data.length) return alert('Er is nog niets om te bewaren.');
+        const inhoud = JSON.stringify({ app: 'declaratie-duygu', versie: 1, gemaakt: new Date().toISOString(), data }, null, 2);
+        download(new Blob([inhoud], { type: 'application/json' }), `Backup_Declaratie_${vandaag()}.json`);
+        toast(`Back-up met ${data.length} registraties opgeslagen`);
+    }
+
+    function backupTerugzetten(input) {
+        const bestand = input.files[0];
+        input.value = '';
+        if (!bestand) return;
+        const lezer = new FileReader();
+        lezer.onload = () => {
+            try {
+                const json = JSON.parse(lezer.result);
+                const regels = Array.isArray(json) ? json : json.data;
+                if (!Array.isArray(regels)) throw new Error();
+                const geldig = regels.filter(r => r && r.id && r.client && /^\d{4}-\d{2}-\d{2}$/.test(r.datum))
+                    .map(r => ({
+                        id: r.id, client: r.client, adres: r.adres || '', datum: r.datum,
+                        uren: +r.uren || 0, km: +r.km || 0, kmBedrag: +r.kmBedrag || 0, onkosten: +r.onkosten || 0
+                    }));
+                if (!geldig.length) return alert('Geen geldige registraties gevonden in dit bestand.');
+
+                const huidig = haalData();
+                const bekend = new Set(huidig.map(r => r.id));
+                const nieuw = geldig.filter(r => !bekend.has(r.id));
+                if (!confirm(`De back-up bevat ${geldig.length} registraties, waarvan ${nieuw.length} nieuw.\nToevoegen aan de huidige lijst?`)) return;
+                bewaar(huidig.concat(nieuw));
+                laden();
+                toast(`${nieuw.length} registraties teruggezet`);
+            } catch (e) {
+                alert('Dit bestand kan niet worden gelezen. Kies een back-upbestand van deze app.');
+            }
+        };
+        lezer.readAsText(bestand);
+    }
+
     function wisAlles() {
-        if(confirm("Weet je het zeker? Alles wordt gewist!")) { 
-            localStorage.removeItem('werkData'); 
-            laden(); 
+        if (confirm('Weet je het zeker? Alles wordt gewist!\nTip: maak eerst een back-up.')) {
+            localStorage.removeItem(OPSLAG);
+            resetFormulier();
+            laden();
         }
     }
 </script>
