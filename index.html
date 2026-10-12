@@ -159,11 +159,7 @@
                 <label for="client">Cliëntnaam</label>
                 <input type="text" id="client" placeholder="Naam" list="clientLijst" autocomplete="off">
                 <datalist id="clientLijst"></datalist>
-                <div class="hint">Bekende cliënt? Adres en km worden automatisch ingevuld.</div>
-            </div>
-            <div class="full-width">
-                <label for="adres">Adres</label>
-                <input type="text" id="adres" placeholder="Straat + Plaats">
+                <div class="hint">Bekende cliënt? De km worden automatisch ingevuld.</div>
             </div>
             <div>
                 <label for="datum">Datum</label>
@@ -282,7 +278,7 @@
     veld('datum').value = vandaag();
     window.onload = laden;
 
-    // Bekende cliënt gekozen: adres en km automatisch invullen
+    // Bekende cliënt gekozen: km automatisch invullen
     veld('client').addEventListener('change', () => {
         const naam = veld('client').value.trim().toLowerCase();
         if (!naam) return;
@@ -290,13 +286,11 @@
             .filter(r => r.client.trim().toLowerCase() === naam)
             .sort((a, b) => b.datum.localeCompare(a.datum) || b.id - a.id)[0];
         if (!laatste) return;
-        if (!veld('adres').value) veld('adres').value = laatste.adres || '';
         if (!veld('km').value && laatste.km) veld('km').value = laatste.km;
     });
 
     function opslaan() {
         const client = veld('client').value.trim();
-        const adres = veld('adres').value.trim();
         const datum = veld('datum').value;
         const uren = getal('uren');
         const km = getal('km');
@@ -311,11 +305,11 @@
                 const oud = data[i];
                 // Km ongewijzigd? Dan het oorspronkelijke bedrag behouden.
                 const kmBedrag = (km === oud.km) ? oud.kmBedrag : km * KM_TARIEF;
-                data[i] = { ...oud, client, adres, datum, uren, km, kmBedrag, onkosten };
+                data[i] = { ...oud, client, datum, uren, km, kmBedrag, onkosten };
             }
             toast('Registratie bijgewerkt');
         } else {
-            data.push({ id: Date.now(), client, adres, datum, uren, km, kmBedrag: km * KM_TARIEF, onkosten });
+            data.push({ id: Date.now(), client, datum, uren, km, kmBedrag: km * KM_TARIEF, onkosten });
             toast('Opgeslagen');
         }
         bewaar(data);
@@ -327,7 +321,7 @@
         bewerkId = null;
         veld('invoerKaart').classList.remove('bewerken');
         veld('btnOpslaan').textContent = 'Opslaan';
-        ['client', 'adres', 'uren', 'km', 'onkosten'].forEach(id => veld(id).value = '');
+        ['client', 'uren', 'km', 'onkosten'].forEach(id => veld(id).value = '');
         veld('datum').value = vandaag();
     }
 
@@ -336,7 +330,6 @@
         if (!r) return;
         bewerkId = id;
         veld('client').value = r.client;
-        veld('adres').value = r.adres || '';
         veld('datum').value = r.datum;
         veld('uren').value = r.uren || '';
         veld('km').value = r.km || '';
@@ -416,7 +409,7 @@
                 g.items.forEach(r => {
                     html += `<tr>
                         <td class="k-datum">${datumKort(r.datum)}</td>
-                        <td><strong>${esc(r.client)}</strong><br><small>${esc(r.adres)}</small></td>
+                        <td><strong>${esc(r.client)}</strong></td>
                         <td class="k-num">${nl(r.uren)}</td>
                         <td class="k-num">${nl(r.km)}</td>
                         <td class="k-geld">${euro(r.kmBedrag)}</td>
@@ -434,7 +427,7 @@
                         <div class="regel-top">
                             <div>
                                 <div class="regel-naam">${esc(r.client)}</div>
-                                <div class="regel-sub">${datumLang(r.datum)}${r.adres ? ' · ' + esc(r.adres) : ''}</div>
+                                <div class="regel-sub">${datumLang(r.datum)}</div>
                             </div>
                             <div class="regel-bedrag">${euro(r.kmBedrag + r.onkosten)}</div>
                         </div>
@@ -478,15 +471,15 @@
     function exporteer() {
         const data = gefilterd(haalData()).sort((a, b) => a.datum.localeCompare(b.datum));
         if (!data.length) return alert('Geen registraties in deze periode.');
-        let csv = 'sep=;\nDatum;Cliënt;Adres;Uren;KM;KM-bedrag;Onkosten;Totaal\n';
+        let csv = 'sep=;\nDatum;Cliënt;Uren;KM;KM-bedrag;Onkosten;Totaal\n';
         let u = 0, k = 0, kb = 0, o = 0;
         data.forEach(r => {
-            csv += [datumKort(r.datum), csvVeld(r.client), csvVeld(r.adres), nl(r.uren), nl(r.km),
+            csv += [datumKort(r.datum), csvVeld(r.client), nl(r.uren), nl(r.km),
                 r.kmBedrag.toFixed(2).replace('.', ','), r.onkosten.toFixed(2).replace('.', ','),
                 (r.kmBedrag + r.onkosten).toFixed(2).replace('.', ',')].join(';') + '\n';
             u += r.uren; k += r.km; kb += r.kmBedrag; o += r.onkosten;
         });
-        csv += `Totaal;;;${nl(u)};${nl(k)};${kb.toFixed(2).replace('.', ',')};${o.toFixed(2).replace('.', ',')};${(kb + o).toFixed(2).replace('.', ',')}\n`;
+        csv += `Totaal;;${nl(u)};${nl(k)};${kb.toFixed(2).replace('.', ',')};${o.toFixed(2).replace('.', ',')};${(kb + o).toFixed(2).replace('.', ',')}\n`;
 
         const p = veld('periode').value;
         const naam = `Declaratie_Duygu_Yildirim${p === 'alles' ? '' : '_' + p}.csv`;
