@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>Declaratie Duygu Yildirim</title>
+    <title>Declaratie</title>
+    <meta name="theme-color" content="#1a73e8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Declaratie">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <style>
         :root {
             --primary: #1a73e8;
@@ -68,7 +74,7 @@
         .btn-pdf { background: var(--pdf-color); }
         .btn-licht { background: var(--primary-licht); color: var(--primary); }
 
-        .werkbalk { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; align-items: end; }
+        .werkbalk { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 10px; align-items: end; }
 
         .week-card { background: var(--kaart); border-radius: 14px; margin-bottom: 16px; overflow: hidden; border: 1px solid var(--lijn); }
         .week-header { background: #f8f9fa; padding: 13px 15px; font-weight: bold; display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px solid #eee; }
@@ -103,6 +109,38 @@
         .schakel input { width: 22px; height: 22px; margin: 0; padding: 0; -webkit-appearance: auto; appearance: auto; accent-color: var(--partus); }
         .schakel.aan { border-color: var(--partus); background: var(--partus-licht); color: var(--partus); }
         .hint.weekend { color: var(--weekend); font-weight: 700; }
+        :root { --opstart: #0b5394; --opstart-licht: #e3eefa; }
+        .schakel.aan-opstart { border-color: var(--opstart); background: var(--opstart-licht); color: var(--opstart); }
+        #opstart { accent-color: var(--opstart); }
+        .badge-opstart { background: var(--opstart); }
+        .badge-wacht { background: #b45309; }
+
+        /* Salaris */
+        .salaris-card { background: var(--kaart); border: 1px solid var(--lijn); border-radius: 14px; padding: 18px 20px; margin-top: 18px; }
+        .salaris-kop { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+        .salaris-kop h2 { font-size: 18px; margin: 0 0 8px; }
+        .salaris-periode { color: var(--zacht); font-weight: 600; font-size: 14px; }
+        .s-kop { font-size: 12px; font-weight: 700; color: var(--zacht); text-transform: uppercase; letter-spacing: .04em; margin-top: 14px; }
+        .s-rij { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; font-size: 15px; }
+        .s-rij span:last-child { white-space: nowrap; font-variant-numeric: tabular-nums; }
+        .s-rij.sub { color: var(--zacht); font-size: 13px; padding-left: 12px; }
+        .s-rij.tussen { border-top: 1px solid var(--lijn); font-weight: 700; margin-top: 4px; padding-top: 8px; }
+        .s-rij.eind { border-top: 2px solid #acc8f8; color: var(--primary); font-size: 21px; font-weight: 800; margin-top: 8px; padding-top: 10px; }
+        .bank-band { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--kaart); border: 1px solid var(--lijn); border-radius: 14px; padding: 14px 18px; margin-bottom: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+        .bank-band:empty { display: none; }
+        .bank-band .label { font-weight: 700; font-size: 15px; }
+        .bank-band .label small { display: block; font-weight: 500; color: var(--zacht); font-size: 12px; margin-top: 2px; }
+        .bank-band .waarde { font-size: 24px; font-weight: 800; white-space: nowrap; }
+        .bank-band .waarde.pos { color: var(--weekend); }
+        .bank-band .waarde.neg { color: var(--danger); }
+        @media print { .bank-band { display: none !important; } }
+        .s-rij .neg, .s-rij.neg { color: var(--danger); }
+        .s-rij .pos, .s-rij.pos { color: var(--weekend); }
+        .salaris-inst summary { cursor: pointer; font-weight: 600; color: var(--primary); margin-top: 16px; }
+        .inst-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+        .tijd-rij { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; grid-column: span 2; }
+        @media (max-width: 640px) { .tijd-rij { grid-column: span 1; } }
+        .salaris-noot { font-size: 12px; color: var(--zacht); margin: 12px 0 0; line-height: 1.5; }
 
         .btn-icoon { height: 34px; width: 34px; padding: 0; border-radius: 8px; font-size: 15px; }
         .btn-bewerk { background: #f1f3f4; color: var(--text); }
@@ -139,8 +177,9 @@
         @media (max-width: 640px) {
             .grid { grid-template-columns: 1fr; }
             .full-width { grid-column: span 1; }
-            .werkbalk { grid-template-columns: 1fr 1fr; }
-            .werkbalk .periode-veld { grid-column: span 2; }
+            .werkbalk { grid-template-columns: 1fr 1fr 1fr; }
+            .werkbalk .periode-veld { grid-column: span 3; }
+            .inst-grid { grid-template-columns: 1fr; }
             .tabel-weergave { display: none; }
             .regels-mobiel { display: block; }
             .week-header { font-size: 14px; }
@@ -161,6 +200,8 @@
             .week-header { font-size: 13px; padding: 8px 10px; }
             .week-card { border: 1px solid #ccc; margin-bottom: 12px; page-break-inside: avoid; border-radius: 6px; }
             .summary-card { background: white; border: 1px solid #ccc; page-break-inside: avoid; }
+            .salaris-card, .salaris-inst { display: none !important; }
+            body.print-salaris .salaris-card { display: block !important; page-break-inside: avoid; border: 1px solid #ccc; }
             .print-voet { display: block; margin-top: 40px; font-size: 12px; }
             .print-voet .lijn { display: inline-block; width: 220px; border-bottom: 1px solid #000; margin-left: 8px; }
         }
@@ -169,7 +210,8 @@
 <body>
 
 <div class="container">
-    <h1>📄 Declaratie Duygu Yildirim</h1>
+    <h1>📄 Declaratie<span class="naam-titel"></span></h1>
+    <div class="bank-band" id="bankBand"></div>
 
     <!-- Invoer -->
     <div class="card" id="invoerKaart">
@@ -181,7 +223,7 @@
                 <datalist id="clientLijst"></datalist>
                 <div class="hint">Bekende cliënt? De km worden automatisch ingevuld.</div>
             </div>
-            <div>
+            <div class="full-width">
                 <label for="datum">Datum</label>
                 <input type="date" id="datum">
                 <div class="hint" id="weekendHint"></div>
@@ -191,17 +233,38 @@
                 <input type="number" id="uren" placeholder="0" step="0.25" min="0" inputmode="decimal">
             </div>
             <div>
+                <label for="nacht">Avond-/nachturen (20:00–07:00)</label>
+                <input type="number" id="nacht" placeholder="0" step="0.25" min="0" inputmode="decimal">
+            </div>
+            <div>
                 <label for="km">KM (retour)</label>
                 <input type="number" id="km" placeholder="0" min="0" inputmode="decimal">
             </div>
             <div>
+                <label for="reistijd">Reistijd (minuten)</label>
+                <input type="number" id="reistijd" placeholder="0" min="0" step="5" inputmode="numeric">
+            </div>
+            <div class="full-width">
                 <label for="onkosten">Onkosten (€)</label>
                 <input type="number" id="onkosten" placeholder="0.00" step="0.01" min="0" inputmode="decimal">
             </div>
-            <div class="full-width">
+            <div>
                 <label class="schakel" id="partusSchakel">
                     <input type="checkbox" id="partus"> Partusdienst
                 </label>
+            </div>
+            <div>
+                <label class="schakel" id="opstartSchakel">
+                    <input type="checkbox" id="opstart"> Opstartdienst
+                </label>
+            </div>
+            <div class="full-width">
+                <label for="wacht">Wachtdienst</label>
+                <select id="wacht">
+                    <option value="">Geen wachtdienst</option>
+                    <option value="opgeroepen">Wachtdienst – opgeroepen</option>
+                    <option value="niet">Wachtdienst – niet opgeroepen</option>
+                </select>
             </div>
         </div>
         <div class="btn-rij">
@@ -218,19 +281,22 @@
                 <select id="periode" onchange="laden()"></select>
             </div>
             <button class="btn-export" onclick="exporteer()">Excel</button>
-            <button class="btn-pdf" onclick="exporteerPDF()">PDF</button>
+            <button class="btn-pdf" onclick="exporteerPDF(false)">PDF</button>
+            <button class="btn-pdf" style="background:#7a1f1f" onclick="exporteerPDF(true)">PDF + salaris</button>
         </div>
     </div>
 
     <!-- Alleen zichtbaar in de PDF -->
     <div class="print-kop">
-        <h2>Declaratie Duygu Yildirim</h2>
+        <h2>Declaratie<span class="naam-titel"></span></h2>
         <div id="printDetails"></div>
     </div>
 
     <div class="legenda">
-        <span><span class="badge badge-weekend">Weekend</span>toeslag</span>
+        <span><span class="badge badge-weekend">Weekend</span>/ feestdag, toeslag</span>
         <span><span class="badge badge-partus">Partus</span>partusdienst</span>
+        <span><span class="badge badge-opstart">Opstart</span>opstartdienst</span>
+        <span><span class="badge badge-wacht">Wacht</span>wachtdienst</span>
     </div>
 
     <div id="overzicht"></div>
@@ -238,12 +304,38 @@
     <div class="summary-card">
         <div class="summary-row"><span>Registraties:</span> <span id="aantal">0</span></div>
         <div class="summary-row"><span>Totaal uren:</span> <span id="totaalUren">0</span></div>
-        <div class="summary-row" style="color:var(--weekend)"><span>· waarvan weekend:</span> <span id="weekendUren">0</span></div>
+        <div class="summary-row" style="color:var(--weekend)"><span>· waarvan toeslaguren (ORT):</span> <span id="weekendUren">0</span></div>
         <div class="summary-row" style="color:var(--partus)"><span>· waarvan partusdienst:</span> <span id="partusUren">0</span></div>
+        <div class="summary-row"><span>Urenbank saldo:</span> <span id="bankSaldo">0 u</span></div>
         <div class="summary-row"><span>Totaal km:</span> <span id="totaalKm">0</span></div>
         <div class="summary-row"><span>Reiskosten:</span> <span id="totaalKMKosten">€ 0,00</span></div>
         <div class="summary-row"><span>Onkosten:</span> <span id="totaalOnkosten">€ 0,00</span></div>
         <div class="summary-row total-highlight"><span>Totaal:</span> <span id="eindtotaal">€ 0,00</span></div>
+    </div>
+
+    <div class="salaris-card" id="salarisKaart">
+        <div class="salaris-kop">
+            <h2>💶 Salaris (schatting)</h2>
+            <span class="salaris-periode" id="salarisPeriode"></span>
+        </div>
+        <div id="salarisInhoud"></div>
+        <details class="salaris-inst">
+            <summary>Instellingen salaris</summary>
+            <div style="margin-top:12px">
+                <label for="instNaam">Naam (staat op de declaratie en de PDF)</label>
+                <input type="text" id="instNaam" placeholder="Voor- en achternaam" autocomplete="name">
+            </div>
+            <div class="inst-grid" id="salarisInstellingen"></div>
+            <div style="margin-bottom:10px">
+                <label for="instBeginMaand">Urenbank: beginmaand (leeg = eerste maand in de app)</label>
+                <input type="month" id="instBeginMaand">
+            </div>
+            <label class="schakel" style="height:auto;padding:12px 14px;margin-bottom:10px;font-size:14px">
+                <input type="checkbox" id="instVerschuif"> Toeslagen, wachtdiensten en reiskosten komen op de loonstrook van de maand erna
+            </label>
+            <button class="btn-licht" style="width:100%" onclick="salarisStandaard()">Standaardwaarden herstellen</button>
+        </details>
+        <p class="salaris-noot">Schatting volgens de cao Kraamzorg 2024–2026: onregelmatigheidstoeslag 40% van het uurloon over avond-/nachturen (20:00–07:00) en alle uren op zaterdag, zondag en feestdagen, wachtdienstvergoeding per dienst (150% als je niet wordt opgeroepen), vakantiegeld 8% en eindejaarsuitkering 8,33%. Kilometervergoeding vast € 0,28 (in overleg). De loonheffing is benaderd vanuit de loonstrook die bij de instellingen is ingevuld.</p>
     </div>
 
     <div class="print-voet">Handtekening: <span class="lijn"></span></div>
@@ -274,7 +366,8 @@
     function bewaar(d) { localStorage.setItem(OPSLAG, JSON.stringify(d)); }
     function veld(id) { return document.getElementById(id); }
     function getal(id) { return parseFloat(String(veld(id).value).replace(',', '.')) || 0; }
-    function euro(n) { return '€ ' + (n || 0).toFixed(2).replace('.', ','); }
+    function euro(n) { return '€ ' + (n || 0).toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+    function pct(n) { return String(n).replace('.', ',') + '%'; }
     function nl(n) { return String(Math.round((n || 0) * 100) / 100).replace('.', ','); }
     function esc(s) {
         return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -300,22 +393,105 @@
         return { week, jaar };
     }
     function isWeekend(datum) { const g = parseDatum(datum).getDay(); return g === 0 || g === 6; }
+
+    /* Feestdagen volgens cao Kraamzorg (art. 1.1 lid 6) */
+    const feestdagCache = {};
+    function pasen(j) {
+        const a = j % 19, b = Math.floor(j / 100), c = j % 100, d = Math.floor(b / 4), e = b % 4,
+              f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30,
+              i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7,
+              m = Math.floor((a + 11 * h + 22 * l) / 451), maand = Math.floor((h + l - 7 * m + 114) / 31),
+              dag = ((h + l - 7 * m + 114) % 31) + 1;
+        return new Date(j, maand - 1, dag);
+    }
+    function feestdagen(j) {
+        if (feestdagCache[j]) return feestdagCache[j];
+        const iso = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+        const plus = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+        const p = pasen(j);
+        let koning = new Date(j, 3, 27);
+        if (koning.getDay() === 0) koning = new Date(j, 3, 26);
+        const lijst = {
+            [`${j}-01-01`]: 'Nieuwjaarsdag',
+            [iso(p)]: 'Eerste Paasdag', [iso(plus(p, 1))]: 'Tweede Paasdag',
+            [iso(koning)]: 'Koningsdag', [`${j}-05-05`]: 'Bevrijdingsdag',
+            [iso(plus(p, 39))]: 'Hemelvaartsdag',
+            [iso(plus(p, 49))]: 'Eerste Pinksterdag', [iso(plus(p, 50))]: 'Tweede Pinksterdag',
+            [`${j}-12-25`]: 'Eerste Kerstdag', [`${j}-12-26`]: 'Tweede Kerstdag'
+        };
+        return (feestdagCache[j] = lijst);
+    }
+    function feestdag(datum) { return feestdagen(+datum.slice(0, 4))[datum] || ''; }
+    function isToeslagdag(datum) { return isWeekend(datum) || !!feestdag(datum); }
+
+    /* Uren uit begin- en eindtijd (over middernacht mag) */
+    function minuten(t) { const [u, m] = t.split(':').map(Number); return u * 60 + m; }
+    function duurUren(begin, eind) {
+        if (!begin || !eind) return 0;
+        let d = minuten(eind) - minuten(begin);
+        if (d <= 0) d += 1440;
+        return d / 60;
+    }
+
+    /* Onregelmatige uren (cao Kraamzorg art. 4.11): ma–vr vóór 07:00 en vanaf 20:00,
+       hele zaterdag, zon- en feestdagen. Aaneengesloten blokken korter dan 1 uur tellen niet. */
+    function ortUren(r) {
+        if (isToeslagdag(r.datum)) return r.uren || 0;
+        if (!r.begin || !r.eind) return Math.min(r.nacht || 0, r.uren || 0);
+        const start = minuten(r.begin);
+        const duur = duurUren(r.begin, r.eind) * 60;
+        const basis = parseDatum(r.datum);
+        let totaal = 0, blok = 0;
+        for (let i = 0; i < duur; i++) {
+            const t = start + i;
+            const dag = new Date(basis.getFullYear(), basis.getMonth(), basis.getDate() + Math.floor(t / 1440));
+            const ds = `${dag.getFullYear()}-${pad(dag.getMonth() + 1)}-${pad(dag.getDate())}`;
+            const uur = (t % 1440) / 60;
+            const onregelmatig = isToeslagdag(ds) || uur < 7 || uur >= 20;
+            if (onregelmatig) blok++;
+            else { if (blok >= 60) totaal += blok; blok = 0; }
+        }
+        if (blok >= 60) totaal += blok;
+        // Nooit meer toeslaguren dan opgegeven uren (bijv. bij pauze)
+        return Math.min(totaal / 60, r.uren || totaal / 60);
+    }
+
+    /* Wachtdienstvergoeding (cao Kraamzorg art. 4.7 lid 10), bruto per dienst van max. 8 uur */
+    function wachtTarief(datum) {
+        const w = isToeslagdag(datum);
+        if (datum >= '2026-07-01') return w ? 18.47 : 12.32;
+        if (datum >= '2026-01-01') return w ? 17.85 : 11.90;
+        return w ? 17.16 : 11.44;
+    }
+    function wachtBedrag(r) {
+        if (!r.wacht) return 0;
+        return wachtTarief(r.datum) * (r.wacht === 'niet' ? 1.5 : 1);
+    }
+
     function rijKlasse(r) {
-        return [isWeekend(r.datum) ? 'rij-weekend' : '', r.partus ? 'rij-partus' : ''].join(' ').trim();
+        return [isToeslagdag(r.datum) ? 'rij-weekend' : '', r.partus ? 'rij-partus' : ''].join(' ').trim();
     }
     function badges(r) {
-        return (isWeekend(r.datum) ? '<span class="badge badge-weekend">Weekend</span>' : '') +
-               (r.partus ? '<span class="badge badge-partus">Partus</span>' : '');
+        const fd = feestdag(r.datum);
+        return (fd ? `<span class="badge badge-weekend">${fd}</span>` : isWeekend(r.datum) ? '<span class="badge badge-weekend">Weekend</span>' : '') +
+               (r.partus ? '<span class="badge badge-partus">Partus</span>' : '') +
+               (r.opstart ? '<span class="badge badge-opstart">Opstart</span>' : '') +
+               (r.wacht ? `<span class="badge badge-wacht">Wacht${r.wacht === 'niet' ? ' (niet opgeroepen)' : ''}</span>` : '');
     }
     function soort(r) {
-        return [isWeekend(r.datum) ? 'Weekend' : '', r.partus ? 'Partusdienst' : ''].filter(Boolean).join(' + ');
+        return [feestdag(r.datum) || (isWeekend(r.datum) ? 'Weekend' : ''), r.partus ? 'Partusdienst' : '', r.opstart ? 'Opstartdienst' : '',
+                r.wacht === 'opgeroepen' ? 'Wachtdienst (opgeroepen)' : r.wacht === 'niet' ? 'Wachtdienst (niet opgeroepen)' : '']
+            .filter(Boolean).join(' + ');
     }
     function toonFormStatus() {
         const d = veld('datum').value;
         const h = veld('weekendHint');
-        if (d && isWeekend(d)) { h.textContent = 'Weekend — toeslag'; h.className = 'hint weekend'; }
+        const fd = d ? feestdag(d) : '';
+        if (fd) { h.textContent = `${fd} — toeslag`; h.className = 'hint weekend'; }
+        else if (d && isWeekend(d)) { h.textContent = 'Weekend — toeslag'; h.className = 'hint weekend'; }
         else { h.textContent = ''; h.className = 'hint'; }
         veld('partusSchakel').classList.toggle('aan', veld('partus').checked);
+        veld('opstartSchakel').classList.toggle('aan-opstart', veld('opstart').checked);
     }
     function toast(tekst) {
         const t = veld('toast');
@@ -329,8 +505,15 @@
     veld('datum').value = vandaag();
     veld('datum').addEventListener('change', toonFormStatus);
     veld('partus').addEventListener('change', toonFormStatus);
+    veld('opstart').addEventListener('change', toonFormStatus);
     toonFormStatus();
-    window.onload = laden;
+    window.onload = () => { tekenInstellingen(); laden(); };
+
+    // Als app op het startscherm: offline werken en de browser vragen de gegevens niet op te ruimen
+    if (location.protocol === 'https:' && 'serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+    try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch (e) {}
 
     // Bekende cliënt gekozen: km automatisch invullen
     veld('client').addEventListener('change', () => {
@@ -350,6 +533,11 @@
         const km = getal('km');
         const onkosten = getal('onkosten');
         const partus = veld('partus').checked;
+        const opstart = veld('opstart').checked;
+        const wacht = veld('wacht').value;
+        const reistijd = getal('reistijd');
+        const nacht = getal('nacht');
+        if (nacht > uren) return alert('Avond-/nachturen kunnen niet meer zijn dan de gewerkte uren');
 
         if (!client || !datum) return alert('Vul naam en datum in');
 
@@ -360,11 +548,11 @@
                 const oud = data[i];
                 // Km ongewijzigd? Dan het oorspronkelijke bedrag behouden.
                 const kmBedrag = (km === oud.km) ? oud.kmBedrag : km * KM_TARIEF;
-                data[i] = { ...oud, client, datum, uren, km, kmBedrag, onkosten, partus };
+                data[i] = { ...oud, client, datum, uren, km, kmBedrag, onkosten, partus, opstart, wacht, reistijd, nacht };
             }
             toast('Registratie bijgewerkt');
         } else {
-            data.push({ id: Date.now(), client, datum, uren, km, kmBedrag: km * KM_TARIEF, onkosten, partus });
+            data.push({ id: Date.now(), client, datum, uren, km, kmBedrag: km * KM_TARIEF, onkosten, partus, opstart, wacht, reistijd, nacht });
             toast('Opgeslagen');
         }
         bewaar(data);
@@ -376,9 +564,10 @@
         bewerkId = null;
         veld('invoerKaart').classList.remove('bewerken');
         veld('btnOpslaan').textContent = 'Opslaan';
-        ['client', 'uren', 'km', 'onkosten'].forEach(id => veld(id).value = '');
+        ['client', 'uren', 'km', 'onkosten', 'wacht', 'reistijd', 'nacht'].forEach(id => veld(id).value = '');
         veld('datum').value = vandaag();
         veld('partus').checked = false;
+        veld('opstart').checked = false;
         toonFormStatus();
     }
 
@@ -392,6 +581,10 @@
         veld('km').value = r.km || '';
         veld('onkosten').value = r.onkosten || '';
         veld('partus').checked = !!r.partus;
+        veld('opstart').checked = !!r.opstart;
+        veld('wacht').value = r.wacht || '';
+        veld('reistijd').value = r.reistijd || '';
+        veld('nacht').value = r.nacht || '';
         toonFormStatus();
         veld('invoerKaart').classList.add('bewerken');
         veld('btnOpslaan').textContent = 'Bijwerken';
@@ -417,7 +610,10 @@
     function vulPeriodes(alles) {
         const sel = veld('periode');
         const huidig = sel.value || 'alles';
-        const maanden = [...new Set(alles.map(r => r.datum.slice(0, 7)))].sort().reverse();
+        const set = new Set(alles.map(r => r.datum.slice(0, 7)));
+        // Bij uitbetaling in de maand erna: ook die maand kunnen kiezen
+        if (haalSalaris().verschuif) [...set].forEach(m => set.add(volgendeMaand(m)));
+        const maanden = [...set].sort().reverse();
         sel.innerHTML = '<option value="alles">Alle registraties</option>' +
             maanden.map(m => `<option value="${m}">${maandLabel(m)}</option>`).join('');
         sel.value = (huidig === 'alles' || maanden.includes(huidig)) ? huidig : 'alles';
@@ -451,7 +647,7 @@
             groepen[label].uren += r.uren;
             groepen[label].bedrag += r.kmBedrag + r.onkosten;
             uTot += r.uren; kmTot += r.km; kmKTot += r.kmBedrag; onkTot += r.onkosten;
-            if (isWeekend(r.datum)) wTot += r.uren;
+            wTot += ortUren(r);
             if (r.partus) pTot += r.uren;
         });
 
@@ -469,9 +665,9 @@
                         </tr></thead><tbody>`;
                 g.items.forEach(r => {
                     html += `<tr class="${rijKlasse(r)}">
-                        <td class="k-datum">${datumKort(r.datum)}</td>
+                        <td class="k-datum">${datumKort(r.datum)}${r.begin ? `<br><small>${r.begin}–${r.eind}</small>` : ''}</td>
                         <td><strong>${esc(r.client)}</strong><br>${badges(r)}</td>
-                        <td class="k-num">${nl(r.uren)}</td>
+                        <td class="k-num">${nl(r.uren)}${r.reistijd ? `<br><small>+${nl(r.reistijd)}m reis</small>` : ''}${r.nacht && !isToeslagdag(r.datum) ? `<br><small>🌙 ${nl(r.nacht)}u</small>` : ''}</td>
                         <td class="k-num">${nl(r.km)}</td>
                         <td class="k-geld">${euro(r.kmBedrag)}</td>
                         <td class="k-geld">${euro(r.onkosten)}</td>
@@ -494,8 +690,10 @@
                             <div class="regel-bedrag">${euro(r.kmBedrag + r.onkosten)}</div>
                         </div>
                         <div class="regel-meta">
-                            <span class="chip">⏱ ${nl(r.uren)} u</span>
+                            <span class="chip">⏱ ${r.begin ? `${r.begin}–${r.eind} · ` : ''}${nl(r.uren)} u</span>
                             <span class="chip">🚗 ${nl(r.km)} km · ${euro(r.kmBedrag)}</span>
+                            ${r.reistijd ? `<span class="chip">🕓 reistijd ${nl(r.reistijd)} min</span>` : ''}
+                            ${r.nacht && !isToeslagdag(r.datum) ? `<span class="chip">🌙 ${nl(r.nacht)} u avond/nacht</span>` : ''}
                             ${r.onkosten ? `<span class="chip">🧾 ${euro(r.onkosten)}</span>` : ''}
                         </div>
                         <div class="regel-acties">
@@ -524,6 +722,215 @@
             `Periode: <strong>${p === 'alles' ? 'Alle registraties' : maandLabel(p)}</strong><br>` +
             `Kilometervergoeding: € ${KM_TARIEF.toFixed(2).replace('.', ',')} per km<br>` +
             `Opgemaakt op: ${datumKort(vandaag())}`;
+
+        // Urenbank: saldo tonen (bij een gekozen maand: eind van die maand, anders actueel)
+        const bank = urenbank();
+        // Lopende maand telt nog niet mee: dan het saldo van de laatst afgesloten maand tonen
+        const gekozen = bank.find(b => b.maand === p) || bank[bank.length - 1];
+        let toon = gekozen, uitleg = '';
+        if (gekozen && gekozen.lopend) {
+            toon = bank[bank.length - 2] || null;
+            uitleg = `${maandLabel(gekozen.maand)} tot nu: ${nl(gekozen.gewerkt)} van ${nl(haalSalaris().contractUren)} u`;
+        }
+        const saldo = toon ? toon.eind : (+haalSalaris().beginSaldo || 0);
+        const klasse = saldo < 0 ? 'neg' : 'pos';
+        const sub = (toon ? 'Eind ' + maandLabel(toon.maand).toLowerCase() : 'Beginsaldo') + (uitleg ? ' · ' + uitleg : '');
+        veld('bankSaldo').innerHTML = `<span style="color:var(${saldo < 0 ? '--danger' : '--weekend'})">${uurTekst(saldo)}</span>`;
+        if (!haalSalaris().contractUren) {
+            veld('bankSaldo').textContent = '–';
+            veld('bankBand').innerHTML = `<div class="label">⏳ Urenbank<small>Nog niet ingesteld op dit toestel: zet het instellingenbestand terug (onderaan, 📂 Terugzetten)</small></div><div class="waarde">–</div>`;
+        } else {
+            veld('bankBand').innerHTML = alles.length ?
+                `<div class="label">⏳ Urenbank<small>${sub}</small></div><div class="waarde ${klasse}">${uurTekst(saldo)}</div>` : '';
+        }
+
+        berekenSalaris(data, p);
+    }
+
+    /* ---------- Salaris ---------- */
+    const SALARIS_OPSLAG = 'salarisInstellingen';
+    // Standaardwaarden: alleen algemene cao-/premiewaarden. Persoonlijke gegevens vult ze zelf in
+    // (of zet ze terug uit een instellingenbestand) en worden alleen op het eigen toestel bewaard.
+    const SALARIS_STANDAARD = {
+        naam: '',
+        uurloon: 0, basisloon: 0, contractUren: 0,
+        ort: 40, opstart: 0,
+        pensioen: 0, hiaat: 0, wga: 0.555, ww: 0.126,
+        lhLoon: 0, lhBedrag: 0,
+        vakantie: 8.00, eindejaar: 8.33, verschuif: false,
+        beginSaldo: 0, beginMaand: ''
+    };
+    const INST_VELDEN = [
+        ['uurloon', 'Uurloon (€)'], ['basisloon', 'Vast maandloon (€)'],
+        ['contractUren', 'Contracturen per maand'], ['ort', 'Onregelmatigheidstoeslag (%)'],
+        ['opstart', 'Vergoeding per opstartdienst (€)'], ['pensioen', 'Pensioenpremie per maand (€)'],
+        ['hiaat', 'WGA-hiaat per maand (€)'], ['wga', 'WGA (%)'],
+        ['ww', 'Inkomensaanvulling WW (%)'], ['vakantie', 'Vakantiegeld (%)'],
+        ['eindejaar', 'Eindejaarsuitkering (%)'], ['beginSaldo', 'Urenbank: beginsaldo (uren, mag negatief)'],
+        ['lhLoon', 'Loonheffing: heffingsloon op een loonstrook (€)'], ['lhBedrag', 'Loonheffing: ingehouden op die loonstrook (€)']
+    ];
+    function ingesteld(s = haalSalaris()) { return s.basisloon > 0 && s.contractUren > 0; }
+    function toonNaam() {
+        const n = (haalSalaris().naam || '').trim();
+        document.querySelectorAll('.naam-titel').forEach(el => el.textContent = n ? ' ' + n : '');
+        document.title = n ? `Declaratie ${n}` : 'Declaratie';
+    }
+
+    /* ---------- Urenbank ----------
+       Elke maand worden de contracturen betaald. Meer gewerkt (incl. reistijd) → saldo omhoog,
+       minder gewerkt → saldo omlaag (mag negatief). Saldo schuift door naar de volgende maand. */
+    function gewerkteUren(r) { return (r.uren || 0) + (r.reistijd || 0) / 60; }
+    function urenbank() {
+        const s = haalSalaris();
+        const alles = haalData();
+        if (!alles.length) return [];
+        const maanden = alles.map(r => r.datum.slice(0, 7)).sort();
+        let m = s.beginMaand && /^\d{4}-\d{2}$/.test(s.beginMaand) ? s.beginMaand : maanden[0];
+        const nu = vandaag().slice(0, 7);
+        const laatste = [maanden[maanden.length - 1], nu].sort()[1];
+        const rijen = [];
+        let saldo = +s.beginSaldo || 0;
+        let veilig = 0;
+        while (m <= laatste && veilig++ < 600) {
+            const gewerkt = alles.filter(r => r.datum.startsWith(m)).reduce((t, r) => t + gewerkteUren(r), 0);
+            const verschil = gewerkt - s.contractUren;
+            const begin = saldo;
+            saldo += verschil;
+            rijen.push({ maand: m, gewerkt, verschil, begin, eind: saldo, lopend: m === nu });
+            m = volgendeMaand(m);
+        }
+        return rijen;
+    }
+    function uurTekst(n) { const r = Math.round(n * 100) / 100; return (r > 0 ? '+' : '') + nl(r) + ' u'; }
+    function volgendeMaand(ym) { const [y, m] = ym.split('-').map(Number); return m === 12 ? `${y + 1}-01` : `${y}-${pad(m + 1)}`; }
+    function vorigeMaand(ym) { const [y, m] = ym.split('-').map(Number); return m === 1 ? `${y - 1}-12` : `${y}-${pad(m - 1)}`; }
+    // Loonheffing (tabel wit, met heffingskorting): benadering vanaf het referentiepunt uit de instellingen.
+    // Helling = hoeveel extra loonheffing per euro extra heffingsloon in dit loongebied.
+    const LH_HELLING = 0.1694;
+
+    function haalSalaris() {
+        try { return { ...SALARIS_STANDAARD, ...(JSON.parse(localStorage.getItem(SALARIS_OPSLAG)) || {}) }; }
+        catch (e) { return { ...SALARIS_STANDAARD }; }
+    }
+    function bewaarSalaris(s) { try { localStorage.setItem(SALARIS_OPSLAG, JSON.stringify(s)); } catch (e) {} }
+
+    function tekenInstellingen() {
+        const s = haalSalaris();
+        veld('salarisInstellingen').innerHTML = INST_VELDEN.map(([k, l]) =>
+            `<div><label for="inst-${k}">${l}</label><input type="number" step="0.01" min="0" inputmode="decimal" id="inst-${k}" data-key="${k}" value="${s[k]}"></div>`
+        ).join('');
+        veld('salarisInstellingen').querySelectorAll('input').forEach(inp => inp.addEventListener('input', () => {
+            const nieuw = haalSalaris();
+            const v = parseFloat(String(inp.value).replace(',', '.'));
+            if (!isNaN(v)) { nieuw[inp.dataset.key] = v; bewaarSalaris(nieuw); laden(); }
+        }));
+        veld('salarisInstellingen').querySelector('[data-key="beginSaldo"]').removeAttribute('min');
+        veld('instNaam').value = s.naam || '';
+        veld('instNaam').oninput = () => {
+            const nieuw = haalSalaris();
+            nieuw.naam = veld('instNaam').value;
+            bewaarSalaris(nieuw);
+            toonNaam();
+        };
+        toonNaam();
+        veld('instBeginMaand').value = s.beginMaand || '';
+        veld('instBeginMaand').onchange = () => {
+            const nieuw = haalSalaris();
+            nieuw.beginMaand = veld('instBeginMaand').value;
+            bewaarSalaris(nieuw);
+            laden();
+        };
+        veld('instVerschuif').checked = !!s.verschuif;
+        veld('instVerschuif').onchange = () => {
+            const nieuw = haalSalaris();
+            nieuw.verschuif = veld('instVerschuif').checked;
+            bewaarSalaris(nieuw);
+            laden();
+        };
+    }
+
+    function salarisStandaard() {
+        if (!confirm('Alle salarisinstellingen terugzetten naar de standaardwaarden?')) return;
+        try { localStorage.removeItem(SALARIS_OPSLAG); } catch (e) {}
+        tekenInstellingen();
+        laden();
+    }
+
+    function berekenSalaris(data, p) {
+        const s = haalSalaris();
+        const doel = veld('salarisInhoud');
+        veld('salarisPeriode').textContent = p === 'alles' ? '' : maandLabel(p);
+        const bank = urenbank();
+        if (p === 'alles') {
+            doel.innerHTML = '<div class="leeg">Kies bij Periode een maand om het salaris te berekenen.</div>' +
+                (bank.length ? `<div class="s-kop">Urenbank per maand</div>` +
+                    `<div class="s-rij sub" style="font-weight:700"><span>Maand · gewerkt · verschil</span><span>Saldo</span></div>` +
+                    bank.slice().reverse().map(b =>
+                        `<div class="s-rij"><span>${maandLabel(b.maand)}${b.lopend ? ' (lopend)' : ''} · ${nl(b.gewerkt)} u · ${uurTekst(b.verschil)}</span>` +
+                        `<span class="${b.eind < 0 ? 'neg' : 'pos'}">${uurTekst(b.eind)}</span></div>`).join('') : '');
+            return;
+        }
+        if (!ingesteld(s)) {
+            doel.innerHTML = '<div class="leeg">Nog geen salarisgegevens op dit toestel.<br>Zet het instellingenbestand terug met <strong>📂 Terugzetten</strong> (onderaan), of vul ze in bij <strong>Instellingen salaris</strong>.</div>';
+            return;
+        }
+        const bm = bank.find(b => b.maand === p);
+
+        // Variabele posten: uit deze maand, of uit de maand ervoor als ze een maand later worden uitbetaald
+        const bronMaand = s.verschuif ? vorigeMaand(p) : p;
+        const bron = haalData().filter(r => r.datum.startsWith(bronMaand));
+        const ortPct = s.ort ?? 40;
+
+        let uTot = 0, uOrt = 0, nOpstart = 0, nWacht = 0, wacht = 0, reis = 0;
+        haalData().filter(r => r.datum.startsWith(p)).forEach(r => { uTot += r.uren; });
+        bron.forEach(r => {
+            uOrt += ortUren(r);
+            if (r.opstart) nOpstart++;
+            if (r.wacht) { nWacht++; wacht += wachtBedrag(r); }
+            reis += r.kmBedrag + r.onkosten;
+        });
+
+        const ort = uOrt * s.uurloon * ortPct / 100;
+        const bruto = s.basisloon + ort + wacht;
+        const heffingsloon = Math.max(0, (bruto - s.pensioen - s.hiaat) / (1 + s.ww / 100));
+        const ww = heffingsloon * s.ww / 100;
+        const wga = heffingsloon * s.wga / 100;
+        const lh = s.lhLoon > 0 ? Math.max(0, s.lhBedrag + LH_HELLING * (heffingsloon - s.lhLoon)) : 0;
+        const inhoudingen = lh + s.pensioen + s.hiaat + wga + ww;
+        const opstartBedrag = nOpstart * s.opstart;
+        const netto = bruto - inhoudingen + opstartBedrag + reis;
+
+        const rij = (l, b, k = '') => `<div class="s-rij ${k}"><span>${l}</span><span>${b}</span></div>`;
+        doel.innerHTML =
+            (bm ?
+                `<div class="s-kop">Urenbank${bm.lopend ? ' (maand loopt nog)' : ''}</div>` +
+                rij('Saldo begin maand', uurTekst(bm.begin)) +
+                rij('Gewerkt incl. reistijd', nl(bm.gewerkt) + ' u') +
+                rij('Betaald (contract)', nl(s.contractUren) + ' u') +
+                rij(bm.verschil >= 0 ? 'Naar urenbank' : 'Aangevuld uit urenbank', uurTekst(bm.verschil)) +
+                `<div class="s-rij tussen ${bm.eind < 0 ? 'neg' : 'pos'}"><span>Saldo eind maand</span><span>${uurTekst(bm.eind)}</span></div>` +
+                (bm.eind < 0 ? rij('Negatief saldo: deze uren moet ze nog inhalen', '', 'sub') : '')
+                : rij('Gewerkte uren deze maand', `${nl(uTot)} van ${nl(s.contractUren)} u`, 'sub')) +
+            (s.verschuif ? rij('Toeslagen, wachtdiensten en reiskosten uit', maandLabel(bronMaand), 'sub') : '') +
+            `<div class="s-kop">Bruto</div>` +
+            rij(`Vast maandloon (${nl(s.contractUren)} u)`, euro(s.basisloon)) +
+            rij(`Onregelmatigheidstoeslag · ${nl(uOrt)} u × ${pct(ortPct)} × ${euro(s.uurloon)}`, euro(ort)) +
+            rij(`Wachtdiensten · ${nWacht}×`, euro(wacht)) +
+            rij('Bruto loon', euro(bruto), 'tussen') +
+            `<div class="s-kop">Inhoudingen</div>` +
+            rij('Loonheffing (benadering)', '− ' + euro(lh)) +
+            rij(`Pensioen`, '− ' + euro(s.pensioen)) +
+            rij('WGA-hiaat', '− ' + euro(s.hiaat)) +
+            rij(`WGA ${pct(s.wga)}`, '− ' + euro(wga)) +
+            rij(`Inkomensaanvulling WW ${pct(s.ww)}`, '− ' + euro(ww)) +
+            rij('Totaal inhoudingen', '− ' + euro(inhoudingen), 'tussen') +
+            `<div class="s-kop">Netto vergoedingen</div>` +
+            rij(`Opstartdiensten · ${nOpstart} × ${euro(s.opstart)}`, euro(opstartBedrag)) +
+            rij('Reiskosten en onkosten (declaratie)', euro(reis)) +
+            rij('Netto uitbetaling', euro(netto), 'eind') +
+            `<div class="s-kop">Reservering (wordt later uitbetaald)</div>` +
+            rij(`Vakantiegeld ${pct(s.vakantie)}`, euro(bruto * s.vakantie / 100), 'sub') +
+            rij(`Eindejaarsuitkering ${pct(s.eindejaar)}`, euro(bruto * s.eindejaar / 100), 'sub');
     }
 
     /* ---------- Export ---------- */
@@ -535,22 +942,27 @@
     function exporteer() {
         const data = gefilterd(haalData()).sort((a, b) => a.datum.localeCompare(b.datum));
         if (!data.length) return alert('Geen registraties in deze periode.');
-        let csv = 'sep=;\nDatum;Cliënt;Uren;KM;KM-bedrag;Onkosten;Totaal;Soort\n';
+        let csv = 'sep=;\nDatum;Begin;Eind;Cliënt;Uren;Toeslaguren;KM;KM-bedrag;Onkosten;Totaal;Soort\n';
         let u = 0, k = 0, kb = 0, o = 0;
         data.forEach(r => {
-            csv += [datumKort(r.datum), csvVeld(r.client), nl(r.uren), nl(r.km),
+            csv += [datumKort(r.datum), r.begin || '', r.eind || '', csvVeld(r.client), nl(r.uren), nl(ortUren(r)), nl(r.km),
                 r.kmBedrag.toFixed(2).replace('.', ','), r.onkosten.toFixed(2).replace('.', ','),
                 (r.kmBedrag + r.onkosten).toFixed(2).replace('.', ','), soort(r)].join(';') + '\n';
             u += r.uren; k += r.km; kb += r.kmBedrag; o += r.onkosten;
         });
-        csv += `Totaal;;${nl(u)};${nl(k)};${kb.toFixed(2).replace('.', ',')};${o.toFixed(2).replace('.', ',')};${(kb + o).toFixed(2).replace('.', ',')}\n`;
+        csv += `Totaal;;;;${nl(u)};${nl(data.reduce((t, r) => t + ortUren(r), 0))};${nl(k)};${kb.toFixed(2).replace('.', ',')};${o.toFixed(2).replace('.', ',')};${(kb + o).toFixed(2).replace('.', ',')}\n`;
 
         const p = veld('periode').value;
-        const naam = `Declaratie_Duygu_Yildirim${p === 'alles' ? '' : '_' + p}.csv`;
+        const wie = (haalSalaris().naam || '').trim().replace(/[^\p{L}\p{N}]+/gu, '_');
+        const naam = `Declaratie${wie ? '_' + wie : ''}${p === 'alles' ? '' : '_' + p}.csv`;
         download(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' }), naam);
     }
 
-    function exporteerPDF() { window.print(); }
+    function exporteerPDF(metSalaris) {
+        document.body.classList.toggle('print-salaris', !!metSalaris);
+        window.print();
+    }
+    window.addEventListener('afterprint', () => document.body.classList.remove('print-salaris'));
 
     function download(blob, naam) {
         const link = document.createElement('a');
@@ -564,10 +976,26 @@
     /* ---------- Back-up ---------- */
     function backupOpslaan() {
         const data = haalData();
-        if (!data.length) return alert('Er is nog niets om te bewaren.');
-        const inhoud = JSON.stringify({ app: 'declaratie-duygu', versie: 1, gemaakt: new Date().toISOString(), data }, null, 2);
+        const instellingen = haalSalaris();
+        if (!data.length && !ingesteld(instellingen)) return alert('Er is nog niets om te bewaren.');
+        const inhoud = JSON.stringify({ app: 'declaratie', versie: 2, gemaakt: new Date().toISOString(), instellingen, data }, null, 2);
         download(new Blob([inhoud], { type: 'application/json' }), `Backup_Declaratie_${vandaag()}.json`);
-        toast(`Back-up met ${data.length} registraties opgeslagen`);
+        toast(`Back-up opgeslagen: ${data.length} registraties + instellingen`);
+    }
+
+    // Alleen bekende instellingen overnemen, met het juiste type
+    function schoneInstellingen(bron) {
+        if (!bron || typeof bron !== 'object') return null;
+        const uit = {};
+        for (const [k, std] of Object.entries(SALARIS_STANDAARD)) {
+            if (!(k in bron)) continue;
+            const v = bron[k];
+            if (typeof std === 'number' && isFinite(+v)) uit[k] = +v;
+            else if (typeof std === 'boolean') uit[k] = !!v;
+            else if (typeof std === 'string' && typeof v === 'string') uit[k] = v.slice(0, 80);
+        }
+        if (uit.beginMaand && !/^\d{4}-\d{2}$/.test(uit.beginMaand)) delete uit.beginMaand;
+        return Object.keys(uit).length ? uit : null;
     }
 
     function backupTerugzetten(input) {
@@ -578,12 +1006,23 @@
         lezer.onload = () => {
             try {
                 const json = JSON.parse(lezer.result);
-                const regels = Array.isArray(json) ? json : json.data;
+                const regels = Array.isArray(json) ? json : (json.data || []);
                 if (!Array.isArray(regels)) throw new Error();
+                const inst = Array.isArray(json) ? null : schoneInstellingen(json.instellingen);
+                if (inst && confirm('Dit bestand bevat instellingen (naam en salarisgegevens).\nDeze op dit toestel overnemen?')) {
+                    bewaarSalaris({ ...haalSalaris(), ...inst });
+                    tekenInstellingen();
+                    laden();
+                    toast('Instellingen overgenomen');
+                }
+                if (!regels.length) { if (!inst) alert('Dit bestand bevat geen registraties of instellingen.'); return; }
                 const geldig = regels.filter(r => r && r.id && r.client && /^\d{4}-\d{2}-\d{2}$/.test(r.datum))
                     .map(r => ({
                         id: r.id, client: r.client, adres: r.adres || '', datum: r.datum,
-                        uren: +r.uren || 0, km: +r.km || 0, kmBedrag: +r.kmBedrag || 0, onkosten: +r.onkosten || 0, partus: !!r.partus
+                        uren: +r.uren || 0, km: +r.km || 0, kmBedrag: +r.kmBedrag || 0, onkosten: +r.onkosten || 0, partus: !!r.partus, opstart: !!r.opstart,
+                        begin: /^\d{2}:\d{2}$/.test(r.begin) ? r.begin : '', eind: /^\d{2}:\d{2}$/.test(r.eind) ? r.eind : '',
+                        wacht: ['opgeroepen', 'niet'].includes(r.wacht) ? r.wacht : '',
+                        reistijd: +r.reistijd || 0, nacht: +r.nacht || 0
                     }));
                 if (!geldig.length) return alert('Geen geldige registraties gevonden in dit bestand.');
 
