@@ -384,6 +384,19 @@
         const t = new Date(y, m - 1, 1).toLocaleDateString('nl-NL', { month: 'long', year: 'numeric' });
         return t.charAt(0).toUpperCase() + t.slice(1);
     }
+    /* Loonperiode: loopt van de 26e van de vorige maand t/m de 25e van deze maand.
+       Werk na de 25e telt dus mee voor de volgende maand. */
+    const PERIODE_EIND = 25;
+    function periodeVan(datum) {
+        const [y, m, d] = datum.split('-').map(Number);
+        if (d > PERIODE_EIND) return m === 12 ? `${y + 1}-01` : `${y}-${pad(m + 1)}`;
+        return `${y}-${pad(m)}`;
+    }
+    function periodeBereik(ym) {
+        const [y, m] = ym.split('-').map(Number);
+        const kort = d => d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' }).replace('.', '');
+        return `${kort(new Date(y, m - 2, PERIODE_EIND + 1))} – ${kort(new Date(y, m - 1, PERIODE_EIND))}`;
+    }
     function isoWeek(datum) {
         const d = parseDatum(datum);
         const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
@@ -604,18 +617,18 @@
     /* ---------- Overzicht ---------- */
     function gefilterd(alles) {
         const p = veld('periode').value;
-        return (!p || p === 'alles') ? alles : alles.filter(r => r.datum.startsWith(p));
+        return (!p || p === 'alles') ? alles : alles.filter(r => periodeVan(r.datum) === p);
     }
 
     function vulPeriodes(alles) {
         const sel = veld('periode');
         const huidig = sel.value || 'alles';
-        const set = new Set(alles.map(r => r.datum.slice(0, 7)));
+        const set = new Set(alles.map(r => periodeVan(r.datum)));
         // Bij uitbetaling in de maand erna: ook die maand kunnen kiezen
         if (haalSalaris().verschuif) [...set].forEach(m => set.add(volgendeMaand(m)));
         const maanden = [...set].sort().reverse();
         sel.innerHTML = '<option value="alles">Alle registraties</option>' +
-            maanden.map(m => `<option value="${m}">${maandLabel(m)}</option>`).join('');
+            maanden.map(m => `<option value="${m}">${maandLabel(m)} (${periodeBereik(m)})</option>`).join('');
         sel.value = (huidig === 'alles' || maanden.includes(huidig)) ? huidig : 'alles';
     }
 
@@ -719,7 +732,7 @@
         // Gegevens voor de PDF-kop
         const p = veld('periode').value;
         veld('printDetails').innerHTML =
-            `Periode: <strong>${p === 'alles' ? 'Alle registraties' : maandLabel(p)}</strong><br>` +
+            `Periode: <strong>${p === 'alles' ? 'Alle registraties' : maandLabel(p) + ' (' + periodeBereik(p) + ')'}</strong><br>` +
             `Kilometervergoeding: € ${KM_TARIEF.toFixed(2).replace('.', ',')} per km<br>` +
             `Opgemaakt op: ${datumKort(vandaag())}`;
 
@@ -729,7 +742,7 @@
         const gekozen = bank.find(b => b.maand === p) || bank[bank.length - 1];
         let toon = gekozen, uitleg = '';
         if (gekozen && gekozen.lopend) {
-            toon = bank[bank.length - 2] || null;
+            toon = bank[bank.indexOf(gekozen) - 1] || null;
             uitleg = `${maandLabel(gekozen.maand)} tot nu: ${nl(gekozen.gewerkt)} van ${nl(haalSalaris().contractUren)} u`;
         }
         const saldo = toon ? toon.eind : (+haalSalaris().beginSaldo || 0);
@@ -784,15 +797,15 @@
         const s = haalSalaris();
         const alles = haalData();
         if (!alles.length) return [];
-        const maanden = alles.map(r => r.datum.slice(0, 7)).sort();
+        const maanden = alles.map(r => periodeVan(r.datum)).sort();
         let m = s.beginMaand && /^\d{4}-\d{2}$/.test(s.beginMaand) ? s.beginMaand : maanden[0];
-        const nu = vandaag().slice(0, 7);
+        const nu = periodeVan(vandaag());
         const laatste = [maanden[maanden.length - 1], nu].sort()[1];
         const rijen = [];
         let saldo = +s.beginSaldo || 0;
         let veilig = 0;
         while (m <= laatste && veilig++ < 600) {
-            const gewerkt = alles.filter(r => r.datum.startsWith(m)).reduce((t, r) => t + gewerkteUren(r), 0);
+            const gewerkt = alles.filter(r => periodeVan(r.datum) === m).reduce((t, r) => t + gewerkteUren(r), 0);
             const verschil = gewerkt - s.contractUren;
             const begin = saldo;
             saldo += verschil;
@@ -859,7 +872,7 @@
     function berekenSalaris(data, p) {
         const s = haalSalaris();
         const doel = veld('salarisInhoud');
-        veld('salarisPeriode').textContent = p === 'alles' ? '' : maandLabel(p);
+        veld('salarisPeriode').textContent = p === 'alles' ? '' : `${maandLabel(p)} (${periodeBereik(p)})`;
         const bank = urenbank();
         if (p === 'alles') {
             doel.innerHTML = '<div class="leeg">Kies bij Periode een maand om het salaris te berekenen.</div>' +
@@ -878,11 +891,11 @@
 
         // Variabele posten: uit deze maand, of uit de maand ervoor als ze een maand later worden uitbetaald
         const bronMaand = s.verschuif ? vorigeMaand(p) : p;
-        const bron = haalData().filter(r => r.datum.startsWith(bronMaand));
+        const bron = haalData().filter(r => periodeVan(r.datum) === bronMaand);
         const ortPct = s.ort ?? 40;
 
         let uTot = 0, uOrt = 0, nOpstart = 0, nWacht = 0, wacht = 0, reis = 0;
-        haalData().filter(r => r.datum.startsWith(p)).forEach(r => { uTot += r.uren; });
+        haalData().filter(r => periodeVan(r.datum) === p).forEach(r => { uTot += r.uren; });
         bron.forEach(r => {
             uOrt += ortUren(r);
             if (r.opstart) nOpstart++;

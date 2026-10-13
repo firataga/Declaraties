@@ -1,5 +1,5 @@
 // Offline-ondersteuning: eerst online proberen (zodat updates binnenkomen), anders de opgeslagen versie.
-const CACHE = 'declaratie-v1';
+const CACHE = 'declaratie-v2';
 const BESTANDEN = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-512-maskable.png'];
 
 self.addEventListener('install', e => {
